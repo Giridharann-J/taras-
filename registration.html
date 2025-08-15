@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+    /* General Setup */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+    overflow: hidden;
+    position: relative;
+    background-color: #000;
+}
+
+/* Video Background Styling */
+.background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    z-index: -1;
+   
+}
+
+.background-video video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6) blur(0px);
+}
+
+/* Welcome Overlay Styling */
+#welcome-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#welcome-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome-content h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+.welcome-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+#enter-btn {
+    padding: 12px 30px;
+    font-size: 1.2em;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+#enter-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Form Styling */
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.form-container::-webkit-scrollbar { width: 8px; }
+.form-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.form-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.5); border-radius: 10px; }
+
+/* General Form Element Styling */
+h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
+.section { margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 20px; }
+.section h2 { color: #fff; font-size: 1.1em; font-weight: 500; margin-bottom: 20px; }
+.input-group { position: relative; margin-bottom: 30px; }
+.input-group input { width: 100%; padding: 10px; background: transparent; border: none; border-bottom: 2px solid rgba(255, 255, 255, 0.7); outline: none; color: #fff; font-size: 1em; font-family: 'Poppins', sans-serif; }
+.input-group label { position: absolute; top: 50%; left: 5px; transform: translateY(-50%); color: rgba(255, 255, 255, 0.8); font-size: 1em; pointer-events: none; transition: .5s; }
+.input-group input:focus ~ label, .input-group input:valid ~ label { top: -10px; font-size: 0.8em; color: #fff; }
+.payment-group { display: flex; align-items: center; gap: 20px; }
+.qr-placeholder { width: 100px; height: 100px; flex-shrink: 0; background: rgba(255, 255, 255, 0.2); border-radius: 10px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 0.9em; text-align: center; }
+.payment-group .input-group { flex-grow: 1; margin-bottom: 0; }
+.radio-group { display: flex; gap: 20px; align-items: center; color: #fff; }
+.radio-group label { cursor: pointer; margin-right: 15px; }
+.radio-group input[type="radio"] { accent-color: #fff; width: 1.2em; height: 1.2em; }
+.btn { width: 100%; padding: 15px 20px; border: none; border-radius: 50px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; margin-top: 20px; }
+.btn-primary { background: #fff; color: #333; }
+.btn-primary:hover { background: #e6e6e6; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.error-message { color: #ffcdd2; text-align: center; margin-bottom: 15px; height: 20px; font-size: 0.9em; }
+
+/* Music Toggle Button Styling */
+#music-toggle-btn {
+    position: fixed;
+    bottom: 25px; right: 25px;
+    width: 50px; height: 50px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.3s, transform 0.3s;
+}
+#music-toggle-btn:hover {
+    background-color: #fff;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 540px) {
+    body { align-items: flex-start; padding: 20px; }
+    .form-container { padding: 25px; margin: 0; max-height: calc(100vh - 40px); }
+    h1 { font-size: 1.8em; }
+    .payment-group { flex-direction: column; }
+}
+/* Responsive fix for mobile: Fit video and prevent all overflow */
+
+</style>
+</head>
+<body>
+    <div class="background-video">
+        <video autoplay loop muted playsinline>
+            <source src="bull1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="welcome-overlay">
+        <div class="welcome-content">
+            <h1>Welcome</h1>
+            <p>This experience features background music.</p>
+            <button id="enter-btn">Click to Enter</button>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <form id="registrationForm">
+            <h1>Registration Page</h1>
+
+            <div class="input-group">
+                <input type="text" id="name" name="name" required>
+                <label for="name">Name *</label>
+            </div>
+            <div class="input-group">
+                <input type="email" id="gmail" name="gmail" required>
+                <label for="gmail">Gmail *</label>
+            </div>
+            <div class="input-group">
+                <input type="tel" id="mobile" name="mobile">
+                <label for="mobile">Mobile No</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="rollNumber" name="rollNumber" required>
+                <label for="rollNumber">Presentation ID / Roll Number *</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="collegeName" name="collegeName" required>
+                <label for="collegeName">College Name *</label>
+            </div>
+
+            <div class="section">
+                <h2>Payment *</h2>
+                <div class="payment-group">
+                    <div class="qr-placeholder">
+                        <span>QR Code Here</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="transactionNumber" name="transactionNumber" required>
+                        <label for="transactionNumber">Transaction Number *</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Lunch Required</h2>
+                <div class="radio-group">
+                    <input type="radio" id="lunchYes" name="lunch" value="Yes" checked>
+                    <label for="lunchYes">Yes</label>
+                    <input type="radio" id="lunchNo" name="lunch" value="No">
+                    <label for="lunchNo">No</label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Team Member 1</h2>
+                <div class="input-group">
+                    <input type="text" id="tm1_name" name="tm1_name">
+                    <label for="tm1_name">Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="tm1_gmail" name="tm1_gmail">
+                    <label for="tm1_gmail">Gmail</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="tm1_rollNumber" name="tm1_rollNumber">
+                    <label for="tm1_rollNumber">Roll Number</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="tm1_collegeName" name="tm1_collegeName">
+                    <label for="tm1_collegeName">College Name</label>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Team Member 2</h2>
+                <div class="input-group">
+                    <input type="text" id="tm2_name" name="tm2_name">
+                    <label for="tm2_name">Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="tm2_gmail" name="tm2_gmail">
+                    <label for="tm2_gmail">Gmail</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="tm2_rollNumber" name="tm2_rollNumber">
+                    <label for="tm2_rollNumber">Roll Number</label>
+                </div>
+                 <div class="input-group">
+                    <input type="text" id="tm2_collegeName" name="tm2_collegeName">
+                    <label for="tm2_collegeName">College Name</label>
+                </div>
+            </div>
+
+            <p id="error-message" class="error-message"></p>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+
+    <button id="music-toggle-btn">🔇</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // --- Element Selectors ---
+    const form = document.getElementById('registrationForm');
+    const errorMessage = document.getElementById('error-message');
+    const music = document.getElementById('background-music');
+    const toggleBtn = document.getElementById('music-toggle-btn');
+    const welcomeOverlay = document.getElementById('welcome-overlay');
+    const enterBtn = document.getElementById('enter-btn');
+
+    // --- Welcome Overlay & Music Logic ---
+    enterBtn.addEventListener('click', () => {
+        music.volume = 0.3;
+        music.play();
+        toggleBtn.innerHTML = '🔊';
+        welcomeOverlay.classList.add('hidden');
+    });
+
+    toggleBtn.addEventListener('click', () => {
+        if (music.paused) {
+            music.play();
+            toggleBtn.innerHTML = '🔊';
+        } else {
+            music.pause();
+            toggleBtn.innerHTML = '🔇';
+        }
+    });
+
+    // --- Form Submission Logic ---
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        errorMessage.textContent = '';
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        console.log('Sending data to backend:', data);
+
+        // Replace with your actual backend URL from Render
+        const backendUrl = 'http://localhost:8080/register';
+
+        try {
+            const response = await fetch(backendUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Success:', result);
+                alert('Registration successful!');
+                form.reset();
+            } else {
+                const errorResult = await response.json();
+                errorMessage.textContent = errorResult.message || 'Registration failed. Please try again.';
+                console.error('Error:', errorResult);
+            }
+        } catch (error) {
+            errorMessage.textContent = 'Could not connect to the server. Please check your connection.';
+            console.error('Fetch Error:', error);
+        }
+    });
+});
+    </script>
+</body>
+</html>

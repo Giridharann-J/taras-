@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARAS '25 | Homepage</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- AOS (Animate On Scroll) Library CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- Base & Background --- */
+        :root {
+            --primary-color: #8e44ad;
+            --dark-bg: #151525;
+            --light-text: #e0e0e0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            z-index: 0;
+            color: var(--light-text);
+            background-color: var(--dark-bg); /* Fallback for no JS */
+            overflow-x: hidden; /* Prevents scrollbar from animations */
+        }
+
+        h1, h2, h3, h4, h5, p, .nav-link, label {
+            text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+        }
+
+        #vanta-bg {
+            width: 100%;
+            height: 100vh; /* Use vh for full viewport height */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background: rgba(21, 21, 37, 0.3); /* dark-bg with alpha */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .navbar-brand {
+            font-weight: 800;
+        }
+        .nav-link {
+            position: relative;
+            padding-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 60%;
+        }
+
+        /* --- MODIFIED: Header: Logo & Info --- */
+        header {
+            padding: 5rem 0; /* Creates space from navbar and below */
+        }
+
+        .logo-container {
+            height: 350px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            overflow: hidden;
+        }
+        .logo-container:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.02);
+        }
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .college-info h2 {
+            font-weight: 800;
+            font-size: clamp(1.75rem, 5vw, 3.5rem); /* Fluid font size */
+        }
+        .college-info p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+        }
+        
+        /* --- Countdown Timer Section --- */
+        .countdown-section {
+            padding: 3rem 0;
+        }
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .timer-box {
+            text-align: center;
+        }
+        .timer-box .time {
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-weight: 800;
+            line-height: 1;
+            color: #fff;
+        }
+        .timer-box .label {
+            font-size: clamp(0.75rem, 4vw, 1rem);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--light-text);
+        }
+        .colon {
+    font-size: 2em;
+    font-weight: 600;
+    padding-bottom: 15px; /* Align colon with numbers */
+}
+        .info-box-container {
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .info-box {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            width: 220px;
+            transition: all 0.3s ease;
+        }
+        .info-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .info-box i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        .info-box .info-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-top: 0.5rem;
+        }
+        .info-box .info-data {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* --- Content Sections --- */
+        .content-section {
+            padding: 5rem 0;
+        }
+        .section-title {
+            font-weight: 800;
+            color: #fff;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #c0392b);
+            border-radius: 2px;
+        }
+
+        /* --- Glass Card (Events, About) --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .glass-card .card-title {
+            color: #fff;
+            font-weight: 600;
+        }
+        .glass-card .btn {
+            border-width: 2px;
+            font-weight: 600;
+        }
+        .glass-card .btn:hover {
+            background-color: #fff;
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        /* --- Gallery Styling --- */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* --- Modal Styling --- */
+        .modal-content.glass-card {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .modal-header, .modal-footer {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+        }
+        #galleryModal .modal-content {
+            background-color: transparent;
+            border: none;
+        }
+        #galleryModal img {
+            max-height: 80vh;
+            width: auto;
+            border-radius: 15px;
+        }
+        .accordion-item {
+            background-color: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 10px !important;
+        }
+        .accordion-button {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            border-radius: 10px !important;
+        }
+        .accordion-button:not(.collapsed) {
+            box-shadow: none;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        .accordion-button::after {
+            filter: invert(1) brightness(2); /* Makes the arrow icon white */
+        }
+        .accordion-body {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        
+        /* --- Person Circle (Coordinators/Volunteers) --- */
+        .person-circle {
+            text-align: center;
+        }
+        .person-circle img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .person-circle img:hover {
+            transform: scale(1.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(142,68,173,0.5);
+        }
+        .person-circle h5 {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .person-circle .role {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* --- Footer --- */
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            background: rgba(21, 21, 37, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 991.98px) {
+            .logo-container {
+                height: 300px;
+            }
+            .college-info {
+                text-align: center !important;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div id="vanta-bg"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">TARAS '25</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#footer">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="container">
+        <div class="row align-items-center">
+            <!-- Left Column: Logo -->
+            <div class="col-lg-7" data-aos="fade-right">
+                <div class="logo-container">
+                    <img src="bull.gif" alt="TARAS Logo" class="logo-image">
+                </div>
+            </div>
+            <!-- Right Column: College Info -->
+            <div class="col-lg-5 text-lg-start text-center d-flex flex-column justify-content-center" data-aos="fade-left" data-aos-delay="200">
+                <div class="college-info">
+                    <h2>SRM Valliammai Engineering College</h2>
+                    <p class="lead text-white-50">Department of ECE</p>
+                    <p class="lead text-white-50">A National Level Technical Symposium</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Countdown Timer Section -->
+    <section class="countdown-section" data-aos="fade-up">
+        <div class="container text-center">
+            <h3 class="mb-4">Event Begins In</h3>
+            <div class="timer-container" id="countdown-timer">
+                <div class="timer-box"><div id="days" class="time">00</div><div class="colon">:</div><div class="label">Days</div></div>
+                <div class="timer-box"><div id="hours" class="time">00</div><div class="colon">:</div><div class="label">Hrs</div></div>
+                <div class="timer-box"><div id="minutes" class="time">00</div><div class="colon">:</div><div class="label">Min</div></div>
+                <div class="timer-box"><div id="seconds" class="time">00</div><div class="colon">:</div><div class="label">Sec</div></div>
+            </div>
+            <div class="info-box-container">
+                <div class="info-box"><i class="bi bi-calendar-event"></i><div class="info-title">Date</div><div class="info-data">Sep 27, 2025</div></div>
+                <div class="info-box"><i class="bi bi-geo-alt"></i><div class="info-title">Venue</div><div class="info-data">SRM VEC</div></div>
+                <div class="info-box"><i class="bi bi-trophy"></i><div class="info-title">Level</div><div class="info-data">National</div></div>
+                <div class="info-box"><i class="bi bi-cpu"></i><div class="info-title">Department</div><div class="info-data">ECE</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Events Section -->
+        <section id="events" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Events</h2>
+            <div class="row g-4 g-lg-5">
+                <!-- Event Cards... -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="glass-card">
+                        <h5 class="card-title">CodeSprint</h5>
+                        <p class="card-text text-white-50">A 24-hour competitive programming marathon.</p>
+                        <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
+                            data-event-title="CodeSprint"
+                            data-details="A high-speed coding competition where participants solve algorithmic problems against the clock. Test your DSA skills!"
+                            data-round1="Prelims: An online MCQ round on basic programming concepts and logic. Duration: 30 minutes."
+                            data-round2="Finals: A 3-hour coding round with 5 challenging problems on our platform.">
+                            Details
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card">
+                        <h5 class="card-title">Design-a-Thon</h5>
+                        <p class="card-text text-white-50">Craft beautiful and user-friendly interfaces.</p>
+                        <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
+                            data-event-title="Design-a-Thon"
+                            data-details="A UI/UX design challenge to solve a real-world problem. Participants must create a complete user flow and a high-fidelity prototype."
+                            data-round1="Problem Statement Release & Ideation: Teams will be given a prompt and 2 hours to brainstorm and create wireframes."
+                            data-round2="Prototyping & Submission: 5 hours to design the final UI in Figma/XD and submit the prototype link."
+                            data-round3="Presentation: Top teams present their design process and solution to the judges (10 mins per team).">
+                            Details
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card">
+                        <h5 class="card-title">RoboWars</h5>
+                        <p class="card-text text-white-50">Build and battle with your own custom robot.</p>
+                        <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
+                            data-event-title="RoboWars"
+                            data-details="The ultimate test of mechanical and electrical engineering. Design, build, and control a combat robot to face off against others in a knock-out style tournament."
+                            data-round1="Weigh-in and Safety Check: All robots must pass inspection before competing."
+                            data-round2="Group Stages: Robots will fight in a round-robin format to determine seeding for the final bracket."
+                            data-round3="Knockout Finals: Single-elimination bracket until one champion remains.">
+                            Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODIFIED: About Section -->
+        <section id="about" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">About The Department</h2>
+            <div class="row justify-content-center g-4">
+                <!-- Vision Card -->
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="glass-card p-4">
+                        <h4 class="card-title text-center"><i class="bi bi-eye-fill me-2"></i>Our Vision</h4>
+                        <p class="text-white-50 mt-3">To become a center of excellence in the field of Electronics and Communication Engineering, producing creative solutions and ethically-grounded engineers to meet the evolving needs of society.</p>
+                    </div>
+                </div>
+                <!-- Mission Card -->
+                <div class="col-lg-6" data-aos="fade-left">
+                     <div class="glass-card p-4">
+                        <h4 class="card-title text-center"><i class="bi bi-bullseye me-2"></i>Our Mission</h4>
+                        <p class="text-white-50 mt-3">To provide a high-quality learning environment with a strong foundation in ECE. We aim to foster innovation, research, and a passion for lifelong learning, enabling students to showcase their technical prowess on platforms like TARAS '25.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Gallery</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="https://placehold.co/1200x800/8e44ad/ffffff?text=Gallery+1">
+                        <img src="https://placehold.co/600x400/8e44ad/ffffff?text=Gallery+1" alt="Gallery Image 1">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="https://placehold.co/1200x800/2980b9/ffffff?text=Gallery+2">
+                        <img src="https://placehold.co/600x400/2980b9/ffffff?text=Gallery+2" alt="Gallery Image 2">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="https://placehold.co/1200x800/27ae60/ffffff?text=Gallery+3">
+                        <img src="https://placehold.co/600x400/27ae60/ffffff?text=Gallery+3" alt="Gallery Image 3">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOD Section -->
+        <section id="hod" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Head of Department</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/ffffff/8e44ad?text=HOD" alt="HOD Photo">
+                        <h5>Dr. Name Here</h5>
+                        <p class="role">Professor & Head, ECE</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coordinators Section -->
+        <section id="coordinators" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Coordinators</h2>
+            <div class="row g-5 justify-content-center">
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="0">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/8e44ad/ffffff?text=Person+1" alt="Coordinator Photo">
+                        <h5>Priya Sharma</h5>
+                        <p class="role">Lead Coordinator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/2980b9/ffffff?text=Person+2" alt="Coordinator Photo">
+                        <h5>Rohan Singh</h5>
+                        <p class="role">Event Coordinator</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Organizers Section -->
+        <section id="organizers" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Organizers</h2>
+            <div class="row g-5 justify-content-center">
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="0">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/27ae60/ffffff?text=Person+A" alt="Organizer Photo">
+                        <h5>Anjali Verma</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/f39c12/ffffff?text=Person+B" alt="Organizer Photo">
+                        <h5>Amit Kumar</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/c0392b/ffffff?text=Person+C" alt="Organizer Photo">
+                        <h5>Sunita Patil</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Volunteers Section -->
+        <section id="volunteers" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Volunteers</h2>
+            <div class="row g-5 justify-content-center">
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="0">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/16a085/ffffff?text=Volunteer+1" alt="Volunteer Photo">
+                        <h5>Vijay Raj</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/d35400/ffffff?text=Volunteer+2" alt="Volunteer Photo">
+                        <h5>Meena Kumari</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/7f8c8d/ffffff?text=Volunteer+3" alt="Volunteer Photo">
+                        <h5>Suresh Gupta</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Web Developer Section -->
+        <section id="developer" class="content-section">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Web Developer</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="person-circle">
+                        <img src="https://placehold.co/200x200/34495e/ffffff?text=Dev" alt="Developer Photo">
+                        <h5>Your Name Here</h5>
+                        <p class="role">Full Stack Developer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Event Details Modal -->
+    <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event Name</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion" id="eventAccordion">
+                        <!-- Accordion items will be generated by JavaScript -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                    <a href="registration.html" blank class="btn btn-light fw-bold">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <img id="galleryModalImage" src="" alt="Gallery Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer id="footer" class="text-center text-white-50">
+        <div class="container">
+            <p>&copy; 2025 SRM Valliammai Engineering College. All Rights Reserved.</p>
+            <p>Designed for TARAS '25 Tech Fest</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            AOS.init({
+                duration: 900,
+                easing: 'ease-in-out-cubic',
+                once: true,
+                mirror: false
+            });
+
+            VANTA.NET({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x8e44ad,
+                backgroundColor: 0x151525,
+                points: 12.00,
+                maxDistance: 23.00,
+                spacing: 18.00
+            });
+
+            const countdownDate = new Date("September 27, 2025 09:00:00").getTime();
+            const timerFunction = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+                if (distance < 0) {
+                    clearInterval(timerFunction);
+                    document.getElementById("countdown-timer").innerHTML = "<h4 class='text-white'>The event has started!</h4>";
+                }
+            }, 1000);
+
+            const eventDetailModal = document.getElementById('eventDetailModal');
+            eventDetailModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const title = button.getAttribute('data-event-title');
+                const details = button.getAttribute('data-details');
+                const round1 = button.getAttribute('data-round1');
+                const round2 = button.getAttribute('data-round2');
+                const round3 = button.getAttribute('data-round3');
+                const modalTitle = eventDetailModal.querySelector('#eventModalLabel');
+                const accordionContainer = eventDetailModal.querySelector('#eventAccordion');
+                modalTitle.textContent = title;
+                accordionContainer.innerHTML = ''; 
+                const createAccordionItem = (id, title, body) => {
+                    if (!body) return '';
+                    const isShown = id === 'details';
+                    return `
+                        <div class="accordion-item mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button ${isShown ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${id}">
+                                    ${title}
+                                </button>
+                            </h2>
+                            <div id="collapse${id}" class="accordion-collapse collapse ${isShown ? 'show' : ''}" data-bs-parent="#eventAccordion">
+                                <div class="accordion-body">${body}</div>
+                            </div>
+                        </div>
+                    `;
+                };
+                accordionContainer.innerHTML += createAccordionItem('details', 'Details', details);
+                accordionContainer.innerHTML += createAccordionItem('round1', 'Round 1', round1);
+                accordionContainer.innerHTML += createAccordionItem('round2', 'Round 2', round2);
+                accordionContainer.innerHTML += createAccordionItem('round3', 'Round 3', round3);
+            });
+
+            // --- NEW: Gallery Modal Logic ---
+            const galleryModal = document.getElementById('galleryModal');
+            galleryModal.addEventListener('show.bs.modal', function (event) {
+                const galleryItem = event.relatedTarget;
+                const imgSrc = galleryItem.getAttribute('data-img-src');
+                const modalImage = document.getElementById('galleryModalImage');
+                modalImage.src = imgSrc;
+            });
+        });
+    </script>
+</body>
+</html>
