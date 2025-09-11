@@ -90,6 +90,8 @@
             background:
                 linear-gradient(135deg, #733232 0%, #271010 35%, #1a0707 60%, #551515 100%);
             overflow-x: hidden;
+            margin: 0 auto; /* center document flow */
+            width: 100%;
         }
 
         /* SVG abstract background container (sharp curves + soft glow) */
@@ -283,7 +285,7 @@
             .college-info .college-title { text-align: center; }
         }
         .college-info p {
-            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-size: 20px;
         }
         
         /* --- Countdown Timer Section --- */
@@ -396,6 +398,85 @@
             margin: 0 auto 12px auto;
             display: block;
         }
+
+        /* --- Mobile Responsiveness Tweaks --- */
+        @media (max-width: 767.98px) {
+            html, body { width: 100%; overflow-x: hidden; }
+            header { padding: 2.5rem 0; }
+            .navbar-brand { padding-left: 40px; }
+            .navbar-brand::before { width: 30px; height: 30px; }
+            /* Smaller hamburger in mobile */
+            .navbar-toggler { padding: 2px 6px; border-width: 1px; }
+            .navbar-toggler .navbar-toggler-icon { width: 18px; height: 18px; background-size: 18px 18px; }
+            .logo-container { max-width: 220px; aspect-ratio: 1 / 1; margin: 0 auto 18px auto; }
+            .college-info h2 { font-size: clamp(1.1rem, 5.2vw, 2rem); letter-spacing: 0.02em; flex-wrap: nowrap; gap: 6px; }
+            .college-info .college-title { display: inline-block; }
+            .brand-badge { width: 28px; height: 28px; margin: 0 6px; }
+            .college-info p { font-size: 0.9rem; }
+            .timer-container { gap: 0.5rem; }
+            .timer-box .time { font-size: clamp(1.6rem, 10vw, 2.6rem); }
+            .info-box { width: 46%; min-width: 160px; }
+            .event-logo { width: 48px; height: 48px; }
+            .gallery-item img { width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: cover; }
+            /* People grid spacing - profile cards */
+            #coordinators .row, #organizers .row, #volunteers .row { justify-content: center; flex-direction: column; align-items: center; gap: 1.25rem; width: 100%; margin-left: 0; margin-right: 0; }
+            #coordinators .row > div, #organizers .row > div, #volunteers .row > div { width: 100%; max-width: 340px; margin: 0 auto; padding-left: 8px; padding-right: 8px; display: flex; justify-content: center; }
+            .person-circle { width: 100%; max-width: 320px; }
+            .person-circle img { height: 200px; }
+            .person-circle h5 { font-size: 1.05rem; }
+            .person-circle .role { font-size: 0.9rem; }
+            /* Event card readability but centered */
+            .glass-card { text-align: center; }
+            .glass-card .card-title { text-align: center; }
+            /* Full-page centering helpers */
+            .container { margin-left: auto; margin-right: auto; padding-left: 16px; padding-right: 16px; }
+            .content-section .row, header .row { justify-content: center !important; }
+            .content-section .row > div { display: flex; justify-content: center; width: 100%; }
+            #events .glass-card { max-width: 360px; width: 100%; }
+            /* Scalable headings */
+            .section-title { font-size: clamp(1.2rem, 5.6vw, 1.8rem); }
+            h3, h4, h5 { font-size: clamp(1rem, 4.8vw, 1.2rem); }
+            /* Event card text sizing */
+            #events .glass-card .card-title { font-size: clamp(0.95rem, 4.4vw, 1.15rem); }
+            #events .glass-card .card-text { font-size: 8px; line-height: 1.45; text-align: justify; text-justify: inter-word; }
+            .nav-link { font-size: 0.95rem; }
+            .btn { font-size: 0.95rem; }
+        }
+
+        /* Laptop / desktop view overrides */
+        @media (min-width: 992px) {
+            /* Increase readability for About section on laptops */
+            #about .glass-card p { font-size: 14px !important; line-height: 1.7; text-align: justify; text-justify: inter-word; }
+            /* Center the about cards and limit width for better layout */
+            #about .row { justify-content: center; gap: 1.5rem; }
+            #about .glass-card { max-width: 520px; margin: 0 auto; text-align: left; }
+        }
+
+        /* Tablet view overrides */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            #about .glass-card p { font-size: 14px !important; line-height: 1.6; text-align: justify; text-justify: inter-word; }
+        }
+
+        /* Tablet: 2 profiles per row, phone: 1 per row */
+        @media (min-width: 576px) and (max-width: 991.98px) {
+            #coordinators .row, #organizers .row, #volunteers .row { flex-direction: row; flex-wrap: wrap; gap: 1rem 1.25rem; }
+            #coordinators .row > div, #organizers .row > div, #volunteers .row > div { flex: 0 0 48%; max-width: 48%; display: flex; justify-content: center; }
+            .person-circle { max-width: 300px; }
+        }
+
+        @media (max-width: 575.98px) {
+            .info-box { width: 100%; }
+            .college-info h2 { flex-wrap: wrap; text-align: center; }
+            .brand-badge { width: 24px; height: 24px; }
+        }
+
+        /* --- Global alignment rules: center layout, balanced text --- */
+        header, .content-section, footer { text-align: center; }
+        p, .card-text, .accordion-body, .college-info p { text-align: center; }
+        .content-section .row { justify-content: center; margin-left: 0; margin-right: 0; }
+        @media (max-width: 575.98px) {
+            p, .card-text, .accordion-body, .college-info p { text-align: center; }
+        }
         .glass-card:hover {
             transform: translateY(-10px);
             border-color: rgba(255, 255, 255, 0.4);
@@ -405,6 +486,8 @@
             color: #fff;
             font-weight: 600;
         }
+        /* Ensure same font size for Our Vision and Our Mission paragraphs */
+        #about .glass-card p { font-size: 8px; line-height: 1.6; text-align: justify; text-justify: inter-word; }
         .glass-card .btn {
             border-width: 2px;
             font-weight: 600;
@@ -421,12 +504,14 @@
             border-radius: 15px;
             border: 2px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
+            aspect-ratio: 1 / 1; /* make square */
         }
         .gallery-item img {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
             transition: transform 0.4s ease;
+            display: block;
         }
         .gallery-item:hover img {
             transform: scale(1.1);
@@ -474,31 +559,43 @@
             border-bottom-right-radius: 10px;
         }
         
-        /* --- Person Circle (Coordinators/Volunteers) --- */
+        /* --- Profile Cards (Coordinators/Organizers/Volunteers) --- */
         .person-circle {
             text-align: center;
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+            max-width: 320px;
+            margin: 0 auto;
         }
         .person-circle img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            width: 100%;
+            height: 220px;
             object-fit: cover;
-            border: 3px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
+            border: none;
+            border-radius: 14px 14px 0 0;
+            transition: transform 0.3s ease;
+            display: block;
         }
         .person-circle img:hover {
-            transform: scale(1.1);
-            border-color: #f70101;
-            box-shadow: 0 0 25px rgba(247, 1, 1, 0.5);
+            transform: scale(1.02);
         }
         .person-circle h5 {
-            margin-top: 1rem;
-            font-weight: 600;
+            margin: 12px 12px 6px 12px;
+            font-weight: 700;
             color: #fff;
         }
         .person-circle .role {
-            font-size: 0.9rem;
-            color: #ccc;
+            font-size: 0.95rem;
+            color: #a8c8ff;
+            margin-bottom: 14px;
+        }
+
+        /* Ensure mobile profile sizes override base values (placed after base rules) */
+        @media (max-width: 767.98px) {
+            .person-circle img { width: 110px !important; height: 110px !important; margin: 0 auto 8px auto; }
         }
 
         /* --- Footer --- */
@@ -523,7 +620,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">TARAS '25</a>
+            <a class="navbar-brand" href="taras.png">TARAS '25</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -533,7 +630,7 @@
                     <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#footer">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <a class="btn btn-outline-light" href="registration.html">Register</a>
                     </li>
@@ -546,7 +643,7 @@
         <div class="row align-items-center">
             <div class="col-lg-4" data-aos="fade-right">
                 <div class="logo-container">
-                    <img src="bull.gif" alt="TARAS Logo" class="logo-image">
+                    <img src="taras.png" alt="TARAS Logo" class="logo-image">
                 </div>
             </div>
             <div class="col-lg-8 text-center d-flex flex-column justify-content-center" data-aos="fade-left" data-aos-delay="200">
@@ -815,6 +912,32 @@
         </section>
 
     </main>
+
+    <section id="contact" class="content-section">
+        <h2 class="section-title text-center mb-5">Contact Us</h2>
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 col-12">
+                    <div class="glass-card p-4 text-center">
+                        <h5 class="card-title"><i class="bi bi-envelope me-2"></i>Email</h5>
+                        <p class="card-text"><a href="mailto:taras@srmvec.edu.in" class="link-light text-decoration-underline">taras@srmvec.edu.in</a></p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="glass-card p-4 text-center">
+                        <h5 class="card-title"><i class="bi bi-instagram me-2"></i>Instagram</h5>
+                        <p class="card-text"><a href="https://instagram.com/taras_srmvec" target="_blank" class="link-light text-decoration-underline">@taras_srmvec</a></p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="glass-card p-4 text-center">
+                        <h5 class="card-title"><i class="bi bi-whatsapp me-2"></i>WhatsApp Group</h5>
+                        <p class="card-text"><a href="https://chat.whatsapp.com/yourInviteCode" target="_blank" class="link-light text-decoration-underline">Join the Group</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
    
 
