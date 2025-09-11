@@ -692,7 +692,8 @@
                             data-event-title="CodeSprint"
                             data-details="A high-speed coding competition where participants solve algorithmic problems against the clock. Test your DSA skills!"
                             data-round1="Prelims: An online MCQ round on basic programming concepts and logic. Duration: 30 minutes."
-                            data-round2="Finals: A 3-hour coding round with 5 challenging problems on our platform.">
+                            data-round2="Finals: A 3-hour coding round with 5 challenging problems on our platform."
+                            data-poster="events/pitch.png">
                             Details
                         </button>
                     </div>
@@ -707,7 +708,8 @@
                             data-details="A UI/UX design challenge to solve a real-world problem. Participants must create a complete user flow and a high-fidelity prototype."
                             data-round1="Problem Statement Release & Ideation: Teams will be given a prompt and 2 hours to brainstorm and create wireframes."
                             data-round2="Prototyping & Submission: 5 hours to design the final UI in Figma/XD and submit the prototype link."
-                            data-round3="Presentation: Top teams present their design process and solution to the judges (10 mins per team).">
+                            data-round3="Presentation: Top teams present their design process and solution to the judges (10 mins per team)."
+                            data-poster="events/bingo.png">
                             Details
                         </button>
                     </div>
@@ -722,7 +724,8 @@
                             data-details="The ultimate test of mechanical and electrical engineering. Design, build, and control a combat robot to face off against others in a knock-out style tournament."
                             data-round1="Weigh-in and Safety Check: All robots must pass inspection before competing."
                             data-round2="Group Stages: Robots will fight in a round-robin format to determine seeding for the final bracket."
-                            data-round3="Knockout Finals: Single-elimination bracket until one champion remains.">
+                            data-round3="Knockout Finals: Single-elimination bracket until one champion remains."
+                            data-poster="events/techhint.png">
                             Details
                         </button>
                     </div>
@@ -738,7 +741,8 @@
                             data-details="A fast-paced quiz covering programming, electronics, AI, startups, and general tech awareness."
                             data-round1="Prelims: Written/online objective quiz to shortlist top teams."
                             data-round2="Semi-Finals: Buzzer rounds with toss-ups and rapid-fire questions."
-                            data-round3="Finals: Mixed audio-visual rounds with increasing difficulty.">
+                            data-round3="Finals: Mixed audio-visual rounds with increasing difficulty."
+                            data-poster="events/bytebox.png">
                             Details
                         </button>
                     </div>
@@ -754,7 +758,8 @@
                             data-details="Participants present original work or surveys in domains like VLSI, IoT, AI/ML, 5G, Robotics and more."
                             data-round1="Abstract Screening: Submit a 200–300 word abstract for shortlisting."
                             data-round2="Presentation: 8–10 minute talk followed by Q&A with the jury."
-                            data-round3="Awards: Top teams are judged on novelty, clarity, and impact.">
+                            data-round3="Awards: Top teams are judged on novelty, clarity, and impact."
+                            data-poster="events/circuit.png">
                             Details
                         </button>
                     </div>
@@ -770,13 +775,34 @@
                             data-details="Collaborate in teams to design and build a working prototype or demo within the given time. Any tech stack is welcome."
                             data-round1="Problem Reveal & Ideation: Understand the theme and propose approach."
                             data-round2="Development Sprint: Build the MVP and prepare the demo."
-                            data-round3="Demo Day: 5-minute demo + 3-minute Q&A with panel.">
+                            data-round3="Demo Day: 5-minute demo + 3-minute Q&A with panel."
+                            data-poster="events/smartpick.png">
                             Details
                         </button>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Event Details Modal -->
+        <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content glass-card">
+                    <img id="eventPoster" src="" alt="Event poster" style="width:100%; max-height: 280px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Event Name</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="accordion" id="eventAccordion"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                        <a href="registration.html" target="_blank" class="btn btn-light fw-bold">Register Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <section id="about" class="content-section">
             <h2 class="section-title text-center mb-5" data-aos="fade-up">About The Department</h2>
@@ -912,7 +938,7 @@
         </section>
 
     </main>
-
+    
     <section id="contact" class="content-section">
         <h2 class="section-title text-center mb-5">Contact Us</h2>
         <div class="container">
@@ -921,22 +947,22 @@
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-envelope me-2"></i>Email</h5>
                         <p class="card-text"><a href="mailto:taras@srmvec.edu.in" class="link-light text-decoration-underline">taras@srmvec.edu.in</a></p>
-                    </div>
                 </div>
+                        </div>
                 <div class="col-md-4 col-12">
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-instagram me-2"></i>Instagram</h5>
                         <p class="card-text"><a href="https://instagram.com/taras_srmvec" target="_blank" class="link-light text-decoration-underline">@taras_srmvec</a></p>
-                    </div>
+                </div>
                 </div>
                 <div class="col-md-4 col-12">
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-whatsapp me-2"></i>WhatsApp Group</h5>
                         <p class="card-text"><a href="https://chat.whatsapp.com/yourInviteCode" target="_blank" class="link-light text-decoration-underline">Join the Group</a></p>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+            </div>
     </section>
     
    
@@ -983,10 +1009,13 @@
                 const round1 = button.getAttribute('data-round1');
                 const round2 = button.getAttribute('data-round2');
                 const round3 = button.getAttribute('data-round3');
+                const poster = button.getAttribute('data-poster') || '';
                 const modalTitle = eventDetailModal.querySelector('#eventModalLabel');
                 const accordionContainer = eventDetailModal.querySelector('#eventAccordion');
+                const posterImg = eventDetailModal.querySelector('#eventPoster');
                 modalTitle.textContent = title;
                 accordionContainer.innerHTML = ''; 
+                if (posterImg) { posterImg.src = poster; }
                 const createAccordionItem = (id, title, body) => {
                     if (!body) return '';
                     const isShown = id === 'details';
