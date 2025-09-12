@@ -216,9 +216,14 @@ h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
                 <label for="teamName">Team Name</label>
             </div>
 
-            <div class="radio-group" style="margin-bottom: 30px;">
-                <div class="radio-option"><input type="radio" id="internal" name="participant_type" value="Internal" checked><label for="internal">Internal</label></div>
-                <div class="radio-option"><input type="radio" id="external" name="participant_type" value="External"><label for="external">External</label></div>
+            <!-- role/events inferred from URL; stored as hidden fields -->
+            <input type="hidden" id="role" name="role">
+            <input type="hidden" id="events" name="events">
+            <div class="section" style="margin-top:0; border-top:none; padding-top:0">
+                <div class="radio-group" style="flex-direction:row; gap:10px; align-items:center; margin-bottom: 20px;">
+                    <span id="roleBadge" class="" style="display:inline-block; padding:6px 12px; border-radius:9999px; background:#fff; color:#000; font-size:0.85em; font-weight:600;">Role</span>
+                    <span id="eventsBadge" style="color:#fff; font-size:0.9em;"></span>
+                </div>
             </div>
             <div class="input-group">
                 <input type="text" id="collegeName" name="collegeName" required>
@@ -263,16 +268,10 @@ h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
                 <label for="whatsappNo">WhatsApp No (Optional)</label>
             </div>
 
+            <!-- Events are selected on the homepage; shown read-only here -->
             <div class="section">
-                <h2>Events List</h2>
-                <div class="radio-group">
-                    <div class="radio-option"><input type="radio" name="event" id="event1" value="Event 1" required><label for="event1">Event 1</label></div>
-                    <div class="radio-option"><input type="radio" name="event" id="event2" value="Event 2"><label for="event2">Event 2</label></div>
-                    <div class="radio-option"><input type="radio" name="event" id="event3" value="Event 3"><label for="event3">Event 3</label></div>
-                    <div class="radio-option"><input type="radio" name="event" id="event4" value="Event 4"><label for="event4">Event 4</label></div>
-                    <div class="radio-option"><input type="radio" name="event" id="event5" value="Event 5"><label for="event5">Event 5</label></div>
-                    <div class="radio-option"><input type="radio" name="event" id="event6" value="Event 6"><label for="event6">Event 6</label></div>
-                </div>
+                <h2>Selected Events</h2>
+                <div id="selectedEventsList" style="display:flex; flex-wrap:wrap; gap:8px"></div>
             </div>
 
             <div class="section">
@@ -284,10 +283,7 @@ h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
                 <div class="input-group"><input type="text" id="tm1_year" name="tm1_year"><label for="tm1_year">Year of Study</label></div>
                 <div class="input-group"><input type="text" id="tm1_reg" name="tm1_reg"><label for="tm1_reg">Reg No</label></div>
                 <div class="input-group"><input type="text" id="tm1_college" name="tm1_college"><label for="tm1_college">College</label></div>
-                <div class="radio-group" style="margin-bottom: 30px;">
-                    <div class="radio-option"><input type="radio" name="tm1_type" value="Internal"><label>Internal</label></div>
-                    <div class="radio-option"><input type="radio" name="tm1_type" value="External"><label>External</label></div>
-                </div>
+                
             </div>
 
             <div class="section">
@@ -299,10 +295,7 @@ h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
                 <div class="input-group"><input type="text" id="tm2_year" name="tm2_year"><label for="tm2_year">Year of Study</label></div>
                 <div class="input-group"><input type="text" id="tm2_reg" name="tm2_reg"><label for="tm2_reg">Reg No</label></div>
                 <div class="input-group"><input type="text" id="tm2_college" name="tm2_college"><label for="tm2_college">College</label></div>
-                <div class="radio-group" style="margin-bottom: 30px;">
-                    <div class="radio-option"><input type="radio" name="tm2_type" value="Internal"><label>Internal</label></div>
-                    <div class="radio-option"><input type="radio" name="tm2_type" value="External"><label>External</label></div>
-                </div>
+                
             </div>
 
             <div class="section">
@@ -314,10 +307,7 @@ h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
                 <div class="input-group"><input type="text" id="tm3_year" name="tm3_year"><label for="tm3_year">Year of Study</label></div>
                 <div class="input-group"><input type="text" id="tm3_reg" name="tm3_reg"><label for="tm3_reg">Reg No</label></div>
                 <div class="input-group"><input type="text" id="tm3_college" name="tm3_college"><label for="tm3_college">College</label></div>
-                <div class="radio-group" style="margin-bottom: 30px;">
-                    <div class="radio-option"><input type="radio" name="tm3_type" value="Internal"><label>Internal</label></div>
-                    <div class="radio-option"><input type="radio" name="tm3_type" value="External"><label>External</label></div>
-                </div>
+                
             </div>
 
             <p id="error-message" class="error-message"></p>
@@ -336,6 +326,49 @@ h1 { color: #fff; text-align: center; margin-bottom: 30px; font-weight: 500; }
             const welcomeOverlay = document.getElementById('welcome-overlay');
             const enterBtn = document.getElementById('enter-btn');
             const submitButton = form.querySelector('button[type="submit"]');
+            // Infer role/events from URL and set badges/hidden inputs
+            const qs = new URLSearchParams(location.search);
+            const role = (qs.get('role') || '').toLowerCase();
+            const events = (qs.get('events') || '').toLowerCase();
+            const roleInput = document.getElementById('role');
+            const eventsInput = document.getElementById('events');
+            const roleBadge = document.getElementById('roleBadge');
+            const eventsBadge = document.getElementById('eventsBadge');
+
+            if (!role) {
+                alert('Please choose Internal or External and select events first.');
+                window.location.href = 'index.html#events';
+                return;
+            }
+            roleInput.value = role;
+            eventsInput.value = events;
+
+            roleBadge.textContent = role === 'internal' ? 'Internal' : 'External';
+            roleBadge.style.background = role === 'internal' ? '#ffe08a' : '#b6f5c1';
+            roleBadge.style.color = '#000';
+
+            const selectedEventsList = document.getElementById('selectedEventsList');
+            const eventLabels = {
+                paper: 'Paper Presentation',
+                cricket: 'Cricket Draft',
+                electro: 'Electro Minds',
+                bytebox: 'Byte Box',
+                circuit: 'Circuit Chase',
+                techhint: 'Tech Hint',
+            };
+            const ids = events.split(',').filter(Boolean);
+            ids.forEach(id => {
+                const tag = document.createElement('span');
+                tag.textContent = eventLabels[id] || id;
+                tag.style.padding = '6px 10px';
+                tag.style.borderRadius = '9999px';
+                tag.style.background = 'rgba(255,255,255,0.9)';
+                tag.style.color = '#000';
+                tag.style.fontSize = '0.85em';
+                tag.style.fontWeight = '600';
+                selectedEventsList.appendChild(tag);
+            });
+
 
             const phoneInput = document.getElementById('phoneNumber');
             const whatsappInput = document.getElementById('whatsappNo');
