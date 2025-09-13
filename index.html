@@ -45,21 +45,28 @@
 
             <!-- Sharp curved bands -->
             <!-- Left-to-center deep maroon sweep -->
-            <path d="M0,150 C260,260 520,370 800,320 C980,288 1120,250 1240,220 L1440,210 L1440,0 L0,0 Z" fill="#2b0a0a"/>
+            <path class="bg-sweep-top" d="M0,150 C260,260 520,370 800,320 C980,288 1120,250 1240,220 L1440,210 L1440,0 L0,0 Z" fill="#2b0a0a"/>
 
             <!-- Strong diagonal black band from top-right to center -->
-            <path d="M1440,0 L1440,220 C1320,190 1160,220 1000,300 C830,390 680,460 520,480 C360,500 210,470 0,360 L0,240 C170,320 310,350 470,340 C660,325 830,250 980,170 C1110,100 1280,40 1440,0 Z" fill="url(#blackBand)"/>
+            <path class="bg-band" d="M1440,0 L1440,220 C1320,190 1160,220 1000,300 C830,390 680,460 520,480 C360,500 210,470 0,360 L0,240 C170,320 310,350 470,340 C660,325 830,250 980,170 C1110,100 1280,40 1440,0 Z" fill="url(#blackBand)"/>
 
             <!-- Bottom red curved sweep (slightly lighter red mix) -->
-            <path d="M0,740 C260,610 520,570 760,590 C980,610 1180,690 1440,780 L1440,900 L0,900 Z" fill="url(#redSweep)" opacity="0.95"/>
+            <path class="bg-sweep-bottom" d="M0,740 C260,610 520,570 760,590 C980,610 1180,690 1440,780 L1440,900 L0,900 Z" fill="url(#redSweep)" opacity="0.95"/>
 
             <!-- Red glow highlights -->
-            <circle cx="1040" cy="140" r="420" fill="url(#redGlow)" filter="url(#softBlur)"/>
-            <circle cx="1260" cy="780" r="420" fill="url(#redGlow)" filter="url(#softBlur)"/>
+            <circle class="bg-glow" cx="1040" cy="140" r="420" fill="url(#redGlow)" filter="url(#softBlur)"/>
+            <circle class="bg-glow" cx="1260" cy="780" r="420" fill="url(#redGlow)" filter="url(#softBlur)"/>
 
             <!-- Soft black vignette to temper red brightness -->
             <rect x="0" y="0" width="1440" height="900" fill="url(#vignette)"/>
         </svg>
+    </div>
+    <!-- Animated orbs layer (very light) -->
+    <div class="bg-orbs" aria-hidden="true">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="orb o3"></div>
+        <div class="orb o4"></div>
     </div>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,6 +110,7 @@
             pointer-events: none;
         }
         #abstract-bg svg { width: 100%; height: 100%; display: block; }
+        /* Static SVG background - animations removed for performance */
 
         /* (Animations removed) */
 
@@ -117,10 +125,10 @@
             background:
                 linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0) 20%, rgba(255,255,255,0.08)),
                 linear-gradient(90deg, rgba(20,8,8,0.78), rgba(92,12,12,0.55), rgba(20,8,8,0.78));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -220,6 +228,22 @@
             box-shadow: 0 10px 28px rgba(255,255,255,0.22), 0 8px 20px rgba(0,0,0,0.24);
         }
 
+        /* Subtle animated background orbs (performance-friendly) */
+        /* Static orbs - animations removed for performance */
+        .bg-orbs { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+        .bg-orbs .orb {
+            position: absolute;
+            width: 520px; height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,70,70,0.25), rgba(255,70,70,0.05) 60%, rgba(255,70,70,0) 70%);
+            filter: blur(20px);
+            mix-blend-mode: screen;
+        }
+        .bg-orbs .o1 { top: -120px; left: -140px; }
+        .bg-orbs .o2 { top: 40%; right: -180px; width: 620px; height: 620px; }
+        .bg-orbs .o3 { bottom: -160px; left: 35%; width: 560px; height: 560px; }
+        .bg-orbs .o4 { top: 10%; left: 65%; width: 420px; height: 420px; }
+
         /* --- MODIFIED: Header: Logo & Info --- */
         header {
             padding: 5rem 0; /* Creates space from navbar and below */
@@ -233,18 +257,18 @@
             border: none;
             border-radius: 50%;
             background: transparent;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px 20px 46px 20px; /* add bottom safe-area so caption stays inside circle */
             transition: border-color 0.3s ease, transform 0.3s ease;
             overflow: hidden;
-            /* Red + black glow */
+            /* Animated red glow effect */
+            animation: logoGlow 4s ease-in-out infinite alternate;
             box-shadow:
                 0 0 28px rgba(255, 0, 0, 0.55),  /* outer red glow */
                 0 12px 28px rgba(0, 0, 0, 0.6);  /* black depth */
-            animation: pulseGlow 3s ease-in-out infinite;
         }
         .logo-container:hover {
             border-color: rgba(255, 0, 0, 0.85);
@@ -253,26 +277,21 @@
                 0 0 0 5px rgba(255, 0, 0, 0.6),
                 0 0 40px rgba(255, 0, 0, 0.7),
                 0 16px 34px rgba(0, 0, 0, 0.65);
+            will-change: transform, box-shadow;
         }
 
-        @keyframes pulseGlow {
+        /* Logo glow animation */
+        @keyframes logoGlow {
             0% {
                 box-shadow:
-                    0 0 0 4px rgba(255, 0, 0, 0.45),
-                    0 0 22px rgba(255, 0, 0, 0.45),
-                    0 10px 24px rgba(0, 0, 0, 0.55);
-            }
-            50% {
-                box-shadow:
-                    0 0 0 6px rgba(255, 0, 0, 0.55),
-                    0 0 46px rgba(255, 0, 0, 0.75),
-                    0 16px 36px rgba(0, 0, 0, 0.65);
+                    0 0 28px rgba(255, 0, 0, 0.55),
+                    0 12px 28px rgba(0, 0, 0, 0.6);
             }
             100% {
                 box-shadow:
-                    0 0 0 4px rgba(255, 0, 0, 0.45),
-                    0 0 22px rgba(255, 0, 0, 0.45),
-                    0 10px 24px rgba(0, 0, 0, 0.55);
+                    0 0 45px rgba(255, 0, 0, 0.75),
+                    0 0 65px rgba(255, 0, 0, 0.45),
+                    0 12px 28px rgba(0, 0, 0, 0.6);
             }
         }
 
@@ -410,8 +429,8 @@
         /* --- Glass Card (Events, About) --- */
         .glass-card {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 15px;
             padding: 1.5rem;
@@ -419,6 +438,39 @@
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
+        }
+        /* Event card visual upgrade (scoped to Events only) */
+        #events .glass-card {
+            position: relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        #events .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(120deg, rgba(255,255,255,0.7), rgba(185,20,20,0.7), rgba(255,59,59,0.7));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        #events .glass-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 18px 44px rgba(0,0,0,0.42);
+        }
+        #events .glass-card .card-title {
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            margin-top: 2px;
+        }
+        #events .glass-card .card-text {
+            color: rgba(255,255,255,0.85);
         }
         .event-logo {
             width: 64px;
@@ -429,6 +481,14 @@
             box-shadow: 0 0 0 2px rgba(255,0,0,0.45), 0 10px 20px rgba(0,0,0,0.35);
             margin: 0 auto 12px auto;
             display: block;
+        }
+        /* Upgraded logo chip for event cards only */
+        #events .event-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+            border: none;
         }
 
         /* --- Mobile Responsiveness Tweaks --- */
@@ -471,6 +531,8 @@
             /* Event card text sizing */
             #events .glass-card .card-title { font-size: clamp(0.95rem, 4.4vw, 1.15rem); }
             #events .glass-card .card-text { font-size: 8px; line-height: 1.45; text-align: justify; text-justify: inter-word; }
+            /* About text slightly smaller on phones for balance */
+            #about .glass-card p { font-size: 12px !important; line-height: 1.6; }
             .nav-link { font-size: 0.95rem; }
             .btn { font-size: 0.95rem; }
         }
@@ -478,7 +540,7 @@
         /* Laptop / desktop view overrides */
         @media (min-width: 992px) {
             /* Increase readability for About section on laptops */
-            #about .glass-card p { font-size: 14px !important; line-height: 1.7; text-align: justify; text-justify: inter-word; }
+            #about .glass-card p { font-size: 15px !important; line-height: 1.8; text-align: justify; text-justify: inter-word; }
             /* Center the about cards and limit width for better layout */
             #about .row { justify-content: center; gap: 1.5rem; }
             #about .glass-card { max-width: 520px; margin: 0 auto; text-align: left; }
@@ -486,7 +548,7 @@
 
         /* Tablet view overrides */
         @media (min-width: 768px) and (max-width: 991.98px) {
-            #about .glass-card p { font-size: 14px !important; line-height: 1.6; text-align: justify; text-justify: inter-word; }
+            #about .glass-card p { font-size: 14px !important; line-height: 1.7; text-align: justify; text-justify: inter-word; }
         }
 
         /* Tablet: 2 profiles per row, phone: 1 per row */
@@ -500,6 +562,8 @@
             .info-box { width: 100%; }
             .college-info h2 { flex-wrap: wrap; text-align: center; }
             .brand-badge { width: 24px; height: 24px; }
+            /* Smaller brochure pill on phones */
+            .brochure-link { padding: 6px 12px; gap: 6px; font-size: 0.85rem; }
         }
 
         /* --- Global alignment rules: center layout, balanced text --- */
@@ -518,8 +582,8 @@
             color: #fff;
             font-weight: 600;
         }
-        /* Ensure same font size for Our Vision and Our Mission paragraphs */
-        #about .glass-card p { font-size: 12px; line-height: 1.6; text-align: justify; text-justify: inter-word; }
+        /* Ensure consistent typography for Our Vision and Our Mission paragraphs */
+        #about .glass-card p { font-size: 13px; line-height: 1.7; text-align: justify; text-justify: inter-word; }
         .glass-card .btn {
             border-width: 2px;
             font-weight: 600;
@@ -784,7 +848,7 @@
                             data-img1="1.png"
                             data-img2="2.png"
                             data-img3="3.png"
-                            data-pdf="paper-presentation.pdf"
+                            data-pdf="abs.pdf"
                             data-pdf-label="Download Abstract Format"
                             data-internal="registration.html?event=pitch&role=internal"
                             data-external="registration.html?event=pitch&role=external">
@@ -794,7 +858,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="glass-card">
-                        <img class="event-logo" src="events/bingo.png" alt="Bingo Blitz logo" loading="lazy">
+                        <img class="event-logo" src="cricket.png" alt="Bingo Blitz logo" loading="lazy">
                         <h5 class="card-title">Cricket Draft</h5>
                         <p class="card-text text-white-50">A strategy-based cricket event where teams compete in two rounds to buld the ultimate squad.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
@@ -1114,6 +1178,7 @@
             window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
             const countdownDate = new Date("September 27, 2025 09:00:00").getTime();
+            // Optimized countdown timer - updates every 5 seconds for better performance
             const timerFunction = setInterval(function() {
                 const now = new Date().getTime();
                 const distance = countdownDate - now;
@@ -1123,15 +1188,21 @@
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 if (distance > 0) {
-                    document.getElementById("days").innerText = days.toString().padStart(2, '0');
-                    document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-                    document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-                    document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+                    const daysEl = document.getElementById("days");
+                    const hoursEl = document.getElementById("hours");
+                    const minutesEl = document.getElementById("minutes");
+                    const secondsEl = document.getElementById("seconds");
+                    
+                    if (daysEl) daysEl.innerText = days.toString().padStart(2, '0');
+                    if (hoursEl) hoursEl.innerText = hours.toString().padStart(2, '0');
+                    if (minutesEl) minutesEl.innerText = minutes.toString().padStart(2, '0');
+                    if (secondsEl) secondsEl.innerText = seconds.toString().padStart(2, '0');
                 } else {
                     clearInterval(timerFunction);
-                    document.getElementById("countdown-timer").innerHTML = "<h4 class='text-white'>The event has started!</h4>";
+                    const countdownEl = document.getElementById("countdown-timer");
+                    if (countdownEl) countdownEl.innerHTML = "<h4 class='text-white'>The event has started!</h4>";
                 }
-            }, 1000);
+            }, 5000); // Reduced frequency from 1000ms to 5000ms
 
             const eventDetailModal = document.getElementById('eventDetailModal');
             eventDetailModal.addEventListener('show.bs.modal', function (event) {
@@ -1176,20 +1247,42 @@
                     eventPdfBtn.classList.add('d-none');
                 }
 
-                // Only show internal/external for Pitch Your Paper
-                const internalUrl = button.getAttribute('data-internal');
-                const externalUrl = button.getAttribute('data-external');
-                if (internalUrl && externalUrl) {
-                    regInternalBtn.classList.remove('d-none');
-                    regExternalBtn.classList.remove('d-none');
-                    regInternalBtn.href = internalUrl;
-                    regInternalBtn.setAttribute('rel', 'noopener noreferrer');
-                    regExternalBtn.href = externalUrl;
-                    regExternalBtn.setAttribute('rel', 'noopener noreferrer');
-                } else {
-                    regInternalBtn.classList.add('d-none');
-                    regExternalBtn.classList.add('d-none');
-                }
+                // Always show Register buttons for all events and open selection modal
+                regInternalBtn.classList.remove('d-none');
+                regExternalBtn.classList.remove('d-none');
+                regInternalBtn.removeAttribute('href');
+                regExternalBtn.removeAttribute('href');
+                regInternalBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Close event details modal first
+                    const eventModal = bootstrap.Modal.getInstance(eventDetailModal);
+                    if (eventModal) eventModal.hide();
+                    
+                    // Wait for modal to close, then open registration modal
+                    eventDetailModal.addEventListener('hidden.bs.modal', function handler() {
+                        eventDetailModal.removeEventListener('hidden.bs.modal', handler);
+                        // store preselected event id and role on modal
+                        regSelectModal.setAttribute('data-preselect', (title || '').toLowerCase());
+                        regSelectModal.setAttribute('data-role', 'internal');
+                        const bsModal = bootstrap.Modal.getOrCreateInstance(regSelectModal);
+                        bsModal.show();
+                    }, { once: true });
+                }, { once: true });
+                regExternalBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Close event details modal first
+                    const eventModal = bootstrap.Modal.getInstance(eventDetailModal);
+                    if (eventModal) eventModal.hide();
+                    
+                    // Wait for modal to close, then open registration modal
+                    eventDetailModal.addEventListener('hidden.bs.modal', function handler() {
+                        eventDetailModal.removeEventListener('hidden.bs.modal', handler);
+                        regSelectModal.setAttribute('data-preselect', (title || '').toLowerCase());
+                        regSelectModal.setAttribute('data-role', 'external');
+                        const bsModal = bootstrap.Modal.getOrCreateInstance(regSelectModal);
+                        bsModal.show();
+                    }, { once: true });
+                }, { once: true });
             });
 
             // --- Gallery Modal Logic ---
@@ -1204,7 +1297,13 @@
             }
 
             if (window.AOS) {
-                AOS.init({ once: true, duration: 700, offset: 60, easing: 'ease-out' });
+                AOS.init({ 
+                    once: true, 
+                    duration: 500, 
+                    offset: 100, 
+                    easing: 'ease-out',
+                    disable: 'mobile' // Disable animations on mobile for better performance
+                });
             }
 
             // Registration modal logic
@@ -1264,8 +1363,23 @@
 
             regSelectModal.addEventListener('show.bs.modal', (e) => {
                 const btn = e.relatedTarget;
-                currentRole = btn?.getAttribute('data-role') === 'internal' ? 'internal' : 'external';
+                // role can be set via data-role or via pre-set attribute from event modal
+                const modalRole = regSelectModal.getAttribute('data-role');
+                currentRole = (btn?.getAttribute('data-role') || modalRole) === 'internal' ? 'internal' : 'external';
                 buildCheckboxes(currentRole);
+
+                // Preselect event if provided
+                const pre = regSelectModal.getAttribute('data-preselect');
+                if (pre) {
+                    // map event titles to ids
+                    const titleToId = new Map(allEvents.map(e => [e.label.toLowerCase(), e.id]));
+                    const evtId = titleToId.get(pre);
+                    if (evtId) {
+                        const input = eventCheckboxList.querySelector(`input[value="${evtId}"]`);
+                        if (input) input.checked = true;
+                    }
+                }
+                updateContinueState();
             });
 
             eventCheckboxList.addEventListener('change', () => {
