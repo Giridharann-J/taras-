@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <!-- Preload hero logo for faster above-the-fold render -->
-    <link rel="preload" as="image" href="taras.png" fetchpriority="high">
+        <link rel="preload" as="image" href="taras.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
@@ -450,6 +450,7 @@
             border-radius: 20px;
             padding: 1px;
             background: linear-gradient(120deg, rgba(255,255,255,0.7), rgba(185,20,20,0.7), rgba(255,59,59,0.7));
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -567,6 +568,13 @@
         .content-section .row { justify-content: center; margin-left: 0; margin-right: 0; }
         @media (max-width: 575.98px) {
             p, .card-text, .accordion-body, .college-info p { text-align: center; }
+        }
+        /* Defer offscreen rendering for heavy sections on mobile */
+        @media (max-width: 991.98px) {
+            #events, #about, #gallery, #hod, #coordinators, #organizers, #volunteers, #developer, #contact {
+                content-visibility: auto;
+                contain-intrinsic-size: 800px 1000px; /* reserve space to avoid layout shift */
+            }
         }
         .glass-card:hover {
             transform: translateY(-10px);
@@ -765,9 +773,9 @@
     <!-- Brochure bar under navbar -->
     <div class="brochure-bar py-2">
         <div class="container d-flex justify-content-end">
-            <a class="brochure-link" href="brochure.pdf" target="_blank" rel="noopener noreferrer">
+            <a class="brochure-link" href="abs.pdf" target="_blank" rel="noopener noreferrer">
                 <i class="bi bi-file-earmark-pdf-fill"></i>
-                Brochure
+                Abstract Format
             </a>
         </div>
     </div>
@@ -844,9 +852,9 @@
                         <h5 class="card-title">Paper Pothumarai</h5>
                         <p class="card-text text-white-50">Pitch Your Paper is a paper presentation event for ECE students to showcase innovation, research, and technical skills.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-event-title="Pitch the paper"
+                            data-event-title="Paper Presentation"
                             data-details="A showcase of innovative ECE research and ideas."
-                            data-poster="paper.png"
+                            data-poster="Paper.png"
                             data-img1="1.png"
                             data-img2="2.png"
                             data-img3="3.png"
@@ -862,14 +870,11 @@
                     <div class="glass-card">
                         <img class="event-logo" src="cricket.png" alt="Bingo Blitz logo" loading="lazy" decoding="async" fetchpriority="low" width="72" height="72">
                         <h5 class="card-title">Cricket Draft</h5>
-                        <p class="card-text text-white-50">A strategy-based cricket event where teams compete in two rounds to buld the ultimate squad.</p>
+                        <p class="card-text text-white-50">A strategy-based cricket event where teams compete in two rounds to build the ultimate squad.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-event-title="Design-a-Thon"
-                            data-details="A creative UI/UX sprint to solve real-world problems."
-                            data-poster="Paper.png"
-                            data-img1="Paper.png"
-                            data-img2="events/bingo-2.jpg"
-                            data-img3="events/bingo-3.jpg">
+                            data-event-title="Cricket Draft"
+                            data-details="A competitive cricket draft designed to test strategy and teamwork."
+                            data-poster="cricket.png">
                             Details
                         </button>
                     </div>
@@ -880,12 +885,9 @@
                         <h5 class="card-title">Electro Minds</h5>
                         <p class="card-text text-white-50">Electro⚡Minds is a technical event celebrating innovation and electrifying competitions.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-event-title="RoboWars"
-                            data-details="Design, build, and battle your custom robot."
-                            data-poster="events/techhint.png"
-                            data-img1="events/techhint-1.jpg"
-                            data-img2="events/techhint-2.jpg"
-                            data-img3="events/techhint-3.jpg">
+                            data-event-title="Electro Minds"
+                            data-details="An electrifying technical challenge that celebrates innovation."
+                            data-poster="Electrominds.png">
                             Details
                         </button>
                     </div>
@@ -895,14 +897,11 @@
                     <div class="glass-card">
                         <img class="event-logo" src="bytebox.png" alt="Byte Box logo" loading="lazy" decoding="async" fetchpriority="low" width="72" height="72">
                         <h5 class="card-title">Byte Box</h5>
-                        <p class="card-text text-white-50">Byte Box is a tech quiz turned grid game of strategy, speed, and wit..</p>
+                        <p class="card-text text-white-50">Byte Box is a tech quiz turned grid game of strategy, speed, and wit.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-event-title="Tech Quiz"
+                            data-event-title="Byte Box"
                             data-details="A fast-paced quiz on electronics, CS, AI, and tech trends."
-                            data-poster="events/bytebox.png"
-                            data-img1="events/bytebox-1.jpg"
-                            data-img2="events/bytebox-2.jpg"
-                            data-img3="events/bytebox-3.jpg">
+                            data-poster="bytebox.png">
                             Details
                         </button>
                     </div>
@@ -914,12 +913,9 @@
                         <h5 class="card-title">Circuit Chase</h5>
                         <p class="card-text text-white-50">Circuit Chase is a team-based tech event that tests problem-solving, circuit skills, and quick thinking.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-event-title="Paper Presentation"
-                            data-details="Share your research in VLSI, IoT, AI/ML, 5G, and more."
-                            data-poster="events/circuit.png"
-                            data-img1="events/circuit-1.jpg"
-                            data-img2="events/circuit-2.jpg"
-                            data-img3="events/circuit-3.jpg">
+                            data-event-title="Circuit Chase"
+                            data-details="A team-based challenge testing problem-solving and circuit skills."
+                            data-poster="CircuitChase.png">
                             Details
                         </button>
                     </div>
@@ -927,16 +923,13 @@
                 <!-- Event 6 -->
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
                     <div class="glass-card">
-                        <img class="event-logo" src="th.png" alt="Smart Pick Matrix logo" loading="lazy" decoding="async" fetchpriority="low" width="72" height="72">
+                        <img class="event-logo" src="th.png" alt="Tech Hint logo" loading="lazy" decoding="async" fetchpriority="low" width="72" height="72">
                         <h5 class="card-title">Tech Hint</h5>
                         <p class="card-text text-white-50">A fun and competitive word-based event that sharpens technical vocabulary, teamwork, and quick thinking.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-event-title="Hack & Build"
-                            data-details="Team up to build a working prototype or demo."
-                            data-poster="events/smartpick.png"
-                            data-img1="events/smartpick-1.jpg"
-                            data-img2="events/smartpick-2.jpg"
-                            data-img3="events/smartpick-3.jpg">
+                            data-event-title="Tech Hint"
+                            data-details="A competitive word-based challenge to sharpen technical vocabulary and teamwork."
+                            data-poster="th.png">
                             Details
                         </button>
                     </div>
@@ -1233,7 +1226,10 @@
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = `${title} image ${idx+1}`;
-                    img.loading = 'lazy';
+                    // Prefer eager/high-priority for the first slide for instant paint, lazy for the rest
+                    img.loading = idx === 0 ? 'eager' : 'lazy';
+                    img.decoding = 'async';
+                    if (idx === 0 && 'fetchPriority' in img) { img.fetchPriority = 'high'; } else if ('fetchPriority' in img) { img.fetchPriority = 'low'; }
                     div.appendChild(img);
                     carouselInner.appendChild(div);
                 });
