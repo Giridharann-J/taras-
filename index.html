@@ -264,6 +264,10 @@
             padding: 20px 20px 46px 20px; /* add bottom safe-area so caption stays inside circle */
             transition: border-color 0.3s ease, transform 0.3s ease;
             overflow: hidden;
+            position: relative; /* needed for pseudo-elements */
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            will-change: transform, box-shadow;
             /* Animated red glow effect */
             animation: logoGlow 4s ease-in-out infinite alternate;
             box-shadow:
@@ -272,12 +276,53 @@
         }
         .logo-container:hover {
             border-color: rgba(255, 0, 0, 0.85);
-            transform: scale(1.02);
+            /* gentle 3D tilt on hover (GPU-accelerated) */
+            transform: scale(1.02) rotate3d(0.2, -0.2, 0, 3deg);
             box-shadow:
                 0 0 0 5px rgba(255, 0, 0, 0.6),
                 0 0 40px rgba(255, 0, 0, 0.7),
                 0 16px 34px rgba(0, 0, 0, 0.65);
             will-change: transform, box-shadow;
+        }
+
+        /* Lightweight animated ring (rotates slowly) */
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            inset: -6px; /* slight overscan to avoid clipping during rotation */
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                rgba(255, 59, 59, 0.36) 0%,
+                rgba(255, 180, 180, 0.14) 22%,
+                rgba(255, 59, 59, 0.28) 45%,
+                rgba(255, 180, 180, 0.14) 70%,
+                rgba(255, 59, 59, 0.36) 100%
+            );
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+                    mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+            animation: ringSpin 28s linear infinite;
+            filter: blur(0.2px);
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Subtle moving sheen inside the circle */
+        .logo-container::after {
+            content: '';
+            position: absolute;
+            inset: -20%;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle at 20% 15%,
+                rgba(255,255,255,0.18) 0%,
+                rgba(255,255,255,0.08) 12%,
+                rgba(255,255,255,0.00) 28%
+            );
+            mix-blend-mode: screen;
+            animation: sheenOrbit 18s ease-in-out infinite;
+            pointer-events: none;
+            will-change: transform, opacity;
         }
 
         /* Logo glow animation */
@@ -295,8 +340,17 @@
             }
         }
 
+        /* Slow, GPU-friendly transforms */
+        @keyframes ringSpin { to { transform: rotate(360deg); } }
+        @keyframes sheenOrbit {
+            0%   { transform: rotate(0deg) translate(0, 0); opacity: 0.7; }
+            50%  { transform: rotate(180deg) translate(2%, 1%); opacity: 1; }
+            100% { transform: rotate(360deg) translate(0, 0); opacity: 0.7; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .logo-container { animation: none; }
+            .logo-container::before, .logo-container::after { animation: none; }
         }
         .logo-image {
             width: 100%;
