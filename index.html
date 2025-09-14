@@ -1356,17 +1356,17 @@
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6" data-aos="fade-up">
                     <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="https://placehold.co/1200x800/8e44ad/ffffff?text=Gallery+1">
-                        <img src="https://placehold.co/600x400/8e44ad/ffffff?text=Gallery+1" alt="Gallery Image 1" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400">
+                        <img src="gal.jpg" alt="Gallery Image 1" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="https://placehold.co/1200x800/2980b9/ffffff?text=Gallery+2">
-                        <img src="https://placehold.co/600x400/2980b9/ffffff?text=Gallery+2" alt="Gallery Image 2" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400">
+                        <img src="gal1.jpg" alt="Gallery Image 2" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="https://placehold.co/1200x800/27ae60/ffffff?text=Gallery+3">
-                        <img src="https://placehold.co/600x400/27ae60/ffffff?text=Gallery+3" alt="Gallery Image 3" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400">
+                        <img src="gal2.jpg" alt="Gallery Image 3" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400">
                     </div>
                 </div>
             </div>
@@ -1377,7 +1377,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content glass-card">
                     <div class="modal-body p-0 d-flex justify-content-center">
-                        <img id="galleryModalImage" src="" alt="Gallery enlarged" style="max-width:100%; height:auto; border-radius: 12px;" decoding="async">
+                        <img id="galleryModalImage" src="gal2.jpg" alt="Gallery enlarged" style="max-width:100%; height:auto; border-radius: 12px;" decoding="async">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-light ms-auto" data-bs-dismiss="modal">Close</button>
@@ -1399,7 +1399,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
                         <div class="person-circle">
-                            <img src="https://placehold.co/200x200/ffffff/8e44ad?text=HOD" alt="Photo of Head of Department" loading="lazy">
+                            <img src="hod.jpg" alt="Photo of Head of Department" loading="lazy">
                             <h5>Dr.Komala James</h5>
                             <p class="role">Profesor & HOD-ECE</p>
                     </div>
@@ -1535,7 +1535,7 @@
             window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
             const countdownDate = new Date("September 27, 2025 09:00:00").getTime();
-            // Optimized countdown timer - updates every 5 seconds for better performance
+            // Countdown timer - updates every second for accurate display
             const timerFunction = setInterval(function() {
                 const now = new Date().getTime();
                 const distance = countdownDate - now;
@@ -1559,7 +1559,7 @@
                     const countdownEl = document.getElementById("countdown-timer");
                     if (countdownEl) countdownEl.innerHTML = "<h4 class='text-white'>The event has started!</h4>";
                 }
-            }, 5000); // Reduced frequency from 1000ms to 5000ms
+            }, 1000); // Updated to update every second (1000ms)
 
             const eventDetailModal = document.getElementById('eventDetailModal');
             eventDetailModal.addEventListener('show.bs.modal', function (event) {
