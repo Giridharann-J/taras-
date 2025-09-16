@@ -148,6 +148,31 @@
             box-shadow: 0 8px 20px rgba(255,59,59,0.35);
         }
 
+        /* Themed Register button */
+        .btn-register {
+            background: linear-gradient(90deg, #ff3b3b, #b81414);
+            color: #fff !important;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 9999px;
+            padding: 0.45rem 1rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.35), 0 8px 22px rgba(255,59,59,0.22);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+        .btn-register:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.4), 0 12px 28px rgba(255,59,59,0.28);
+            filter: brightness(1.05);
+            color: #111 !important;
+        }
+        .btn-register:active {
+            transform: translateY(0);
+            filter: brightness(0.98);
+        }
+        /* Navbar sizing */
+        .navbar .btn-register { padding: 0.35rem 0.9rem; }
+
         /* Brochure bar */
         .brochure-bar {
             background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
@@ -356,7 +381,8 @@
             font-size: clamp(2.5rem, 10vw, 5rem);
             font-weight: 800;
             line-height: 1;
-            color: #fff;
+            color: #e1b12c; /* gold-like number color */
+            font-variant-numeric: tabular-nums; /* align digits evenly */
         }
         .timer-box .label {
             font-size: clamp(0.75rem, 4vw, 1rem);
@@ -365,9 +391,7 @@
             color: var(--light-text);
         }
         .colon {
-            font-size: 2em;
-            font-weight: 600;
-            padding-bottom: 15px; /* Align colon with numbers */
+            display: none; /* Hide colons to match requested format */
         }
         .info-box-container {
             margin-top: 3rem;
@@ -545,9 +569,9 @@
             .gallery-item img { width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: cover; }
             /* People grid spacing - profile cards */
             #coordinators .row, #organizers .row, #volunteers .row { justify-content: center; flex-direction: column; align-items: center; gap: 1.25rem; width: 100%; margin-left: 0; margin-right: 0; }
-            #coordinators .row > div, #organizers .row > div, #volunteers .row > div { width: 100%; max-width: 340px; margin: 0 auto; padding-left: 8px; padding-right: 8px; display: flex; justify-content: center; }
-            .person-circle { width: 100%; max-width: 320px; }
-            .person-circle img { height: 200px; }
+            #coordinators .row > div, #organizers .row > div, #volunteers .row > div { width: 100%; max-width: 380px; margin: 0 auto; padding-left: 8px; padding-right: 8px; display: flex; justify-content: center; }
+            .person-circle { width: 100%; max-width: 360px; }
+            .person-circle img { height: auto; min-height: 180px; }
             .person-circle h5 { font-size: 1.05rem; }
             .person-circle .role { font-size: 0.9rem; }
             /* Event card readability but centered */
@@ -1055,6 +1079,17 @@
             content-visibility: auto;
             contain-intrinsic-size: 72px 72px;
         }
+
+        /* General Instructions card typography */
+        .instructions-card { text-align: left; }
+        .instructions-card .card-title { font-size: clamp(1rem, 3.8vw, 1.25rem); }
+        .instructions-card li { font-size: clamp(0.85rem, 3.4vw, 1rem); line-height: 1.6; color: rgba(255,255,255,0.85); }
+
+        /* Responsive Google Map */
+        .map-container { position: relative; width: 100%; padding-top: 56.25%; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+        .map-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .map-skeleton { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-weight: 600; background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12), rgba(255,255,255,0.06)); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
 </head>
 <body id="home">
@@ -1110,6 +1145,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#home">TARAS '25</a>
+            <!-- Mobile-visible Register button outside burger -->
+            <div class="d-lg-none ms-auto me-2">
+                <a class="btn btn-register" href="https://docs.google.com/forms/d/e/1FAIpQLSf9GPGvxOWBTQRbOTst56Y7-knxAWrxfC8pE3H6WX80BLbZow/viewform?usp=header" target="_blank" rel="noopener noreferrer">Register</a>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -1120,9 +1159,8 @@
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
-                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0 d-flex gap-2">
-                        <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#regSelectModal" data-role="internal">Register (Internal)</button>
-                        <button class="btn btn-light text-dark" type="button" data-bs-toggle="modal" data-bs-target="#regSelectModal" data-role="external">Register (External)</button>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0 d-none d-lg-flex gap-2">
+                        <a class="btn btn-register" href="https://docs.google.com/forms/d/e/1FAIpQLSf9GPGvxOWBTQRbOTst56Y7-knxAWrxfC8pE3H6WX80BLbZow/viewform?usp=header" target="_blank" rel="noopener noreferrer">Register</a>
                     </li>
                 </ul>
             </div>
@@ -1132,9 +1170,9 @@
     <!-- Brochure bar under navbar -->
     <div class="brochure-bar py-2">
         <div class="container d-flex justify-content-end">
-            <a class="brochure-link" href="abs.pdf" target="_blank" rel="noopener noreferrer">
+            <a class="brochure-link" href="brou.png" target="_blank" rel="noopener noreferrer">
                 <i class="bi bi-file-earmark-pdf-fill"></i>
-                Abstract Format
+                Brochure
             </a>
         </div>
     </div>
@@ -1214,9 +1252,9 @@
                             data-event-title="Paper Presentation"
                             data-details="A showcase of innovative ECE research and ideas."
                             data-poster="Paper.png"
-                            data-img1="1.png"
-                            data-img2="2.png"
-                            data-img3="3.png"
+                            data-img1="ppp1.jpg"
+                            data-img2="ppp2.jpg"
+                            data-img3="ppp3.jpg"
                             data-pdf="abs.pdf"
                             data-pdf-label="Download Abstract Format"
                             data-internal="registration.html?event=pitch&role=internal"
@@ -1234,9 +1272,8 @@
                             data-event-title="Cricket Draft"
                             data-details="A competitive cricket draft designed to test strategy and teamwork."
                             data-poster="Paper.png"
-                            data-img1="1.png"
-                            data-img2="2.png"
-                            data-img3="3.png">
+                            data-img1="cdp1.jpg"
+                            data-img2="cdp2.jpg">
                             Details
                         </button>
                     </div>
@@ -1249,7 +1286,8 @@
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
                             data-event-title="Electro Minds"
                             data-details="An electrifying technical challenge that celebrates innovation."
-                            data-poster="Electrominds.png">
+                            data-img1="emp1.jpg"
+                            data-img2="emp2.jpg">
                             Details
                         </button>
                     </div>
@@ -1263,7 +1301,8 @@
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
                             data-event-title="Byte Box"
                             data-details="A fast-paced quiz on electronics, CS, AI, and tech trends."
-                            data-poster="bytebox.png">
+                            data-img1="bbp1.jpg"
+                            data-img2="bbp2.jpg">
                             Details
                         </button>
                     </div>
@@ -1277,7 +1316,8 @@
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
                             data-event-title="Circuit Chase"
                             data-details="A team-based challenge testing problem-solving and circuit skills."
-                            data-poster="CircuitChase.png">
+                            data-img1="ccpq.jpg"
+                            data-img2="ccp2.jpg">
                             Details
                         </button>
                     </div>
@@ -1291,9 +1331,60 @@
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
                             data-event-title="Tech Hint"
                             data-details="A competitive word-based challenge to sharpen technical vocabulary and teamwork."
-                            data-poster="th.jpg">
+                            data-img1="thp1.jpg"
+                            data-img2="thp2.jpg">
                             Details
                         </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- General Instructions Card -->
+            <div class="row mt-4 mt-lg-5 justify-content-center" data-aos="fade-up" data-aos-delay="600">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="glass-card instructions-card p-3 p-md-4">
+                        <h5 class="card-title mb-3 text-center">General Instructions</h5>
+                        <ul class="mb-0 ps-3">
+                            <li>A valid college ID card is mandatory for registration and participation.</li>
+                            <li>Registration fee:Rs.100/- per participant.
+                            </li>
+                            <li>Payment is not refundable.
+                            </li>
+                            <li>Team size :1-4 members(may vary according to events).
+                            </li>
+                            <li>All participants must register before the deadline specified by the organizers (25.09.25).
+                            </li>
+                            <li>Judges decision will be the final.
+                            </li>
+                            <li>Each participant is allowed to register for only 2 events. Based on slot availability participants are allowed to participate in other events also.
+                            </li>
+                            <li>If you are registering for Paper Presentation as a group(max:3),each member in a group should register seperately by uploading same abstract. Will be considered as a team and approach you for further details.
+                            </li>
+                            <li>Certificate will be provided as hard copy to all participants.
+                            </li>
+                            <li>Lunch and registration kit will be provided.
+                            </li>
+                            <li>On Spot registration will be available based on slot availability.
+                            </li>
+                            <li>Participants will be divided into batches (ex:batch1,batch 2) and they will be allotted with specific time slot for participation in events.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- College Location Map -->
+            <div class="row mt-4 justify-content-center" data-aos="fade-up" data-aos-delay="700">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="glass-card p-3 p-md-4 text-start">
+                        <h5 class="card-title mb-3 text-center">College Location</h5>
+                        <div class="map-container" id="collegeMap">
+                            <div class="map-skeleton">Loading map…</div>
+                            <iframe
+                                data-src="https://www.google.com/maps?q=SRM%20Valliammai%20Engineering%20College&output=embed"
+                                title="SRM Valliammai Engineering College location"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                aria-label="Map showing SRM Valliammai Engineering College"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1324,8 +1415,7 @@
                     <div class="modal-footer">
                         <div class="d-flex flex-wrap gap-2 justify-content-center w-100">
                             <a id="eventPdfBtn" href="#" target="_blank" class="btn btn-outline-light d-none">Download PDF</a>
-                            <a id="regInternalBtn" href="#" target="_blank" class="btn btn-light fw-bold d-none">Register (Internal)</a>
-                            <a id="regExternalBtn" href="#" target="_blank" class="btn btn-outline-light d-none">Register (External)</a>
+                            <a id="regBtn" href="#" target="_blank" class="btn btn-light fw-bold d-none">Register</a>
                             <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -1396,12 +1486,11 @@
                         <p class="role">Principal</p>
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                        <div class="person-circle">
-                            <img src="hod.jpg" alt="Photo of Head of Department" loading="lazy">
-                            <h5>Dr.Komala James</h5>
-                            <p class="role">Profesor & HOD-ECE</p>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="person-circle">
+                        <img src="hod.jpg" alt="Photo of Head of Department" loading="lazy">
+                        <h5>Dr.Komala James</h5>
+                        <p class="role">Professor & HOD-ECE</p>
                     </div>
                 </div>
             </div>
@@ -1412,7 +1501,7 @@
             <div class="row g-5 justify-content-center">
                 <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="0">
                     <div class="person-circle">
-                        <img src="https://placehold.co/200x200/8e44ad/ffffff?text=Person+1" alt="Photo of Priya Sharma" loading="lazy">
+                        <img src="sc1.jpg" alt="Photo of Priya Sharma" loading="lazy">
                         <h5>Dr.G.UdhayaKumar</h5>
                         <p class="role">Professor</p>
                     </div>
@@ -1420,7 +1509,7 @@
                 
                 <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="person-circle">
-                        <img src="https://placehold.co/200x200/2980b9/ffffff?text=Person+2" alt="Photo of Rohan Singh" loading="lazy">
+                        <img src="sc2.jpg" alt="Photo of Rohan Singh" loading="lazy">
                         <h5>Mr.K.R.Ganesh</h5>
                         <p class="role">Associate Professor</p>
                     </div>
@@ -1429,61 +1518,80 @@
         </section>
 
         <section id="organizers" class="content-section">
-            <h2 class="section-title text-center mb-5" data-aos="fade-up">Organizers</h2>
-            <div class="row g-5 justify-content-center">
-                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="0">
-                    <div class="person-circle">
-                        <img src="https://placehold.co/200x200/27ae60/ffffff?text=Person+A" alt="Photo of Anjali Verma" loading="lazy">
-                        <h5>Anjali Verma</h5>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="person-circle">
-                        <img src="https://placehold.co/200x200/f39c12/ffffff?text=Person+B" alt="Photo of Amit Kumar" loading="lazy">
-                        <h5>Amit Kumar</h5>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="person-circle">
-                        <img src="https://placehold.co/200x200/c0392b/ffffff?text=Person+C" alt="Photo of Sunita Patil" loading="lazy">
-                        <h5>Sunita Patil</h5>
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Student Coordinators</h2>
+            <div class="row justify-content-center" data-aos="fade-up">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="glass-card p-3 p-md-4 text-start">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center border-bottom pb-2">
+                                <div>
+                                    <h5 class="mb-1">A Akash 
+                                    </h5>
+                                    <div class="text-white-50">President</div>
+                                </div>
+                                <a class="link-light text-decoration-underline mt-1 mt-md-0" href="tel:+910000000001">+91 7358493551</a>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center border-bottom pb-2">
+                                <div>
+                                    <h5 class="mb-1">Syed Owaise . A
+                                    </h5>
+                                    <div class="text-white-50">Vice President</div>
+                                </div>
+                                <a class="link-light text-decoration-underline mt-1 mt-md-0" href="tel:+910000000001">+91 7358373106
+                                </a>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center border-bottom pb-2">
+                                <div>
+                                    <h5 class="mb-1">S V Nithin </h5>
+                                    <div class="text-white-50">Secretary</div>
+                                </div>
+                                <a class="link-light text-decoration-underline mt-1 mt-md-0" href="tel:+910000000001">+91 8220581103
+                                </a>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center border-bottom pb-2">
+                                <div>
+                                    <h5 class="mb-1">T Nishanth 
+                                    </h5>
+                                    <div class="text-white-50">Joint Secretary</div>
+                                </div>
+                                <a class="link-light text-decoration-underline mt-1 mt-md-0" href="tel:+910000000001">+91 9344760681</a>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center border-bottom pb-2">
+                                <div>
+                                    <h5 class="mb-1">R P Swastika
+                                    </h5>
+                                    <div class="text-white-50">Treasurer</div>
+                                </div>
+                                <a class="link-light text-decoration-underline mt-1 mt-md-0" href="tel:+910000000002">+91 9360934112</a>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                <div>
+                                    <h5 class="mb-1">S Divyadharshini </h5>
+                                    <div class="text-white-50">Joint treasurer</div>
+                                </div>
+                                <a class="link-light text-decoration-underline mt-1 mt-md-0" href="tel:+910000000003">+91 9360969083</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="volunteers" class="content-section">
-            <h2 class="section-title text-center mb-5" data-aos="fade-up">Volunteers</h2>
-            <div class="row g-5 justify-content-center">
-                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="0">
-                    <div class="person-circle">
-                        <img src="https://placehold.co/200x200/16a085/ffffff?text=Volunteer+1" alt="Photo of Vijay Raj" loading="lazy">
-                        <h5>Vijay Raj</h5>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="person-circle">
-                        <img src="https://placehold.co/200x200/d35400/ffffff?text=Volunteer+2" alt="Photo of Meena Kumari" loading="lazy">
-                        <h5>Meena Kumari</h5>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="person-circle">
-                        <img src="https://placehold.co/200x200/7f8c8d/ffffff?text=Volunteer+3" alt="Photo of Suresh Gupta" loading="lazy">
-                        <h5>Suresh Gupta</h5>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
 
         <section id="developer" class="content-section">
             <h2 class="section-title text-center mb-5" data-aos="fade-up">Web Developer</h2>
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="person-circle">
-                        <img src="https://placehold.co/200x200/34495e/ffffff?text=Dev" alt="Developer Photo" loading="lazy">
-                        <h5>Your Name Here</h5>
-                        <p class="role">Full Stack Developer</p>
+                        <img src="web2.png" alt="Developer Photo" loading="lazy">
+                        <h5>J Giridharan </h5>
+                        <p class="role">Front-end Developer</p>
+                        <div class="mt-2">
+                            <a href="https://www.linkedin.com/in/giridharan-j/" target="_blank" rel="noopener noreferrer" class="link-light fs-4" aria-label="LinkedIn profile">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1498,19 +1606,19 @@
                 <div class="col-md-4 col-12">
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-envelope me-2"></i>Email</h5>
-                        <p class="card-text"><a href="mailto:tarasecesymp@gmail.com" class="link-light text-decoration-underline">taras@srmvec.edu.in</a></p>
+                        <p class="card-text"><a href="mailto:tarasecesymp@gmail.com" class="link-light text-decoration-underline">tarasecesymp@gmail.com</a></p>
                 </div>
                         </div>
                 <div class="col-md-4 col-12">
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-instagram me-2"></i>Instagram</h5>
-                        <p class="card-text"><a href="https://www.instagram.com/taras_2k25?igsh=MWoxbTlnaGZwdnEwbQ==" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-underline">@taras_srmvec</a></p>
+                        <p class="card-text"><a href="https://www.instagram.com/taras_2k25?igsh=MWoxbTlnaGZwdnEwbQ==" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-underline">@@taras_2k25</a></p>
                 </div>
                 </div>
                 <div class="col-md-4 col-12">
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-whatsapp me-2"></i>WhatsApp Group</h5>
-                        <p class="card-text"><a href="https://chat.whatsapp.com/yourInviteCode" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-underline">Join the Group</a></p>
+                        <p class="card-text"><a href="https://chat.whatsapp.com/LdWBMjFqgHHIxLvN9wcmbF?mode=ems_wa_t" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-underline">Join the Group</a></p>
             </div>
         </div>
     </div>
@@ -1573,8 +1681,7 @@
                 const modalTitle = eventDetailModal.querySelector('#eventModalLabel');
                 const detailsText = eventDetailModal.querySelector('#eventDetailsText');
                 const carouselInner = eventDetailModal.querySelector('#eventCarouselInner');
-                const regInternalBtn = eventDetailModal.querySelector('#regInternalBtn');
-                const regExternalBtn = eventDetailModal.querySelector('#regExternalBtn');
+                const regBtn = eventDetailModal.querySelector('#regBtn');
                 const eventPdfBtn = eventDetailModal.querySelector('#eventPdfBtn');
                 modalTitle.textContent = title;
                 detailsText.textContent = details || '';
@@ -1607,42 +1714,12 @@
                     eventPdfBtn.classList.add('d-none');
                 }
 
-                // Always show Register buttons for all events and open selection modal
-                regInternalBtn.classList.remove('d-none');
-                regExternalBtn.classList.remove('d-none');
-                regInternalBtn.removeAttribute('href');
-                regExternalBtn.removeAttribute('href');
-                regInternalBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    // Close event details modal first
-                    const eventModal = bootstrap.Modal.getInstance(eventDetailModal);
-                    if (eventModal) eventModal.hide();
-                    
-                    // Wait for modal to close, then open registration modal
-                    eventDetailModal.addEventListener('hidden.bs.modal', function handler() {
-                        eventDetailModal.removeEventListener('hidden.bs.modal', handler);
-                        // store preselected event id and role on modal
-                        regSelectModal.setAttribute('data-preselect', (title || '').toLowerCase());
-                        regSelectModal.setAttribute('data-role', 'internal');
-                        const bsModal = bootstrap.Modal.getOrCreateInstance(regSelectModal);
-                        bsModal.show();
-                    }, { once: true });
-                }, { once: true });
-                regExternalBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    // Close event details modal first
-                    const eventModal = bootstrap.Modal.getInstance(eventDetailModal);
-                    if (eventModal) eventModal.hide();
-                    
-                    // Wait for modal to close, then open registration modal
-                    eventDetailModal.addEventListener('hidden.bs.modal', function handler() {
-                        eventDetailModal.removeEventListener('hidden.bs.modal', handler);
-                        regSelectModal.setAttribute('data-preselect', (title || '').toLowerCase());
-                        regSelectModal.setAttribute('data-role', 'external');
-                        const bsModal = bootstrap.Modal.getOrCreateInstance(regSelectModal);
-                        bsModal.show();
-                    }, { once: true });
-                }, { once: true });
+                // Show single Register button that opens Google Form
+                regBtn.classList.remove('d-none');
+                regBtn.classList.add('btn-register');
+                regBtn.setAttribute('href', googleFormUrl);
+                regBtn.setAttribute('target', '_blank');
+                regBtn.setAttribute('rel', 'noopener noreferrer');
             });
 
             // --- Gallery Modal Logic ---
@@ -1721,7 +1798,42 @@
                 document.documentElement.style.setProperty('--animation-iteration-count', '1');
             }
 
+            // Lazy-load Google Map when visible or on first interaction
+            const mapContainer = document.getElementById('collegeMap');
+            if (mapContainer) {
+                const iframe = mapContainer.querySelector('iframe');
+                const skeleton = mapContainer.querySelector('.map-skeleton');
+                const loadMap = () => {
+                    if (!iframe.getAttribute('src')) {
+                        const dataSrc = iframe.getAttribute('data-src');
+                        if (dataSrc) iframe.setAttribute('src', dataSrc);
+                        if (skeleton) skeleton.style.display = 'none';
+                    }
+                };
+                // IntersectionObserver for visibility
+                if ('IntersectionObserver' in window) {
+                    const obs = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                loadMap();
+                                obs.disconnect();
+                            }
+                        });
+                    }, { rootMargin: '200px' });
+                    obs.observe(mapContainer);
+                } else {
+                    // Fallback: load on first scroll or click
+                    const onFirst = () => { loadMap(); window.removeEventListener('scroll', onFirst); mapContainer.removeEventListener('click', onFirst); };
+                    window.addEventListener('scroll', onFirst, { once: true });
+                    mapContainer.addEventListener('click', onFirst, { once: true });
+                }
+            }
+
             // Registration modal logic
+            // Global Google Form URL used for all registrations
+            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf9GPGvxOWBTQRbOTst56Y7-knxAWrxfC8pE3H6WX80BLbZow/viewform?usp=header';
+
+            // Remove old role-based registration modal logic (not used anymore)
             const regSelectModal = document.getElementById('regSelectModal');
             const eventCheckboxList = document.getElementById('eventCheckboxList');
             const regContinueBtn = document.getElementById('regContinueBtn');
@@ -1809,12 +1921,7 @@
             });
 
             regContinueBtn.addEventListener('click', () => {
-                const selected = Array.from(eventCheckboxList.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
-                if (selected.length === 0) return;
-                const params = new URLSearchParams();
-                params.set('role', currentRole);
-                params.set('events', selected.join(','));
-                window.location.href = `registration.html?${params.toString()}`;
+                window.open(googleFormUrl, '_blank', 'noopener');
             });
         });
     </script>
