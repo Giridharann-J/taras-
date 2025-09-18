@@ -373,25 +373,59 @@
             display: flex;
             justify-content: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         .timer-box {
             text-align: center;
         }
-        .timer-box .time {
-            font-size: clamp(2.5rem, 10vw, 5rem);
+        /* Circular timer style */
+        .timer-ring {
+            --pct: 0%;
+            width: clamp(64px, 18vw, 96px);
+            height: clamp(64px, 18vw, 96px);
+            border-radius: 50%;
+            background: conic-gradient(#0d6efd var(--pct), rgba(255,255,255,0.18) 0);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 0 0 6px rgba(255,255,255,0.75);
+        }
+        .timer-inner {
+            width: calc(100% - 16px);
+            height: calc(100% - 16px);
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0d6efd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            font-size: clamp(1.25rem, 6vw, 2.25rem);
             font-weight: 800;
             line-height: 1;
-            color: #e1b12c; /* gold-like number color */
-            font-variant-numeric: tabular-nums; /* align digits evenly */
+            font-variant-numeric: tabular-nums;
         }
         .timer-box .label {
             font-size: clamp(0.75rem, 4vw, 1rem);
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--light-text);
+            color: #76a9ff;
+            margin-top: 0.35rem;
         }
-        .colon {
-            display: none; /* Hide colons to match requested format */
+        .colon { display: none; }
+
+        /* Countdown responsive tweaks */
+        @media (max-width: 767.98px) {
+            .timer-container { gap: 0.5rem; flex-wrap: nowrap; justify-content: space-between; }
+            .timer-box { flex: 0 0 auto; }
+            .timer-ring { width: clamp(48px, 16vw, 64px); height: clamp(48px, 16vw, 64px); }
+            .timer-inner { font-size: clamp(0.95rem, 5.5vw, 1.4rem); }
+            .timer-box .label { font-size: clamp(0.7rem, 3.5vw, 0.9rem); }
+        }
+        @media (max-width: 575.98px) {
+            .timer-container { gap: 0.4rem; }
+            .timer-ring { width: clamp(44px, 15vw, 58px); height: clamp(44px, 15vw, 58px); }
+            .timer-inner { font-size: clamp(0.9rem, 5vw, 1.2rem); }
+            .timer-box .label { font-size: clamp(0.65rem, 3.2vw, 0.85rem); }
         }
         .info-box-container {
             margin-top: 3rem;
@@ -613,7 +647,7 @@
             h3, h4, h5 { font-size: clamp(1rem, 4.8vw, 1.2rem); }
             /* Event card text sizing */
             #events .glass-card .card-title { font-size: clamp(0.95rem, 4.4vw, 1.15rem); }
-            #events .glass-card .card-text { font-size: 8px; line-height: 1.45; text-align: justify; text-justify: inter-word; }
+            #events .glass-card .card-text { font-size: clamp(0.8rem, 3.6vw, 1rem); line-height: 1.6; text-align: justify; text-justify: inter-word; }
             /* About text slightly smaller on phones for balance */
             #about .glass-card p { font-size: 12px !important; line-height: 1.6; }
             .nav-link { font-size: 0.95rem; }
@@ -1203,10 +1237,22 @@
         <div class="container text-center">
             <h3 class="mb-4">Event Begins In</h3>
             <div class="timer-container" id="countdown-timer">
-                <div class="timer-box"><div id="days" class="time">00</div><div class="colon">:</div><div class="label">Days</div></div>
-                <div class="timer-box"><div id="hours" class="time">00</div><div class="colon">:</div><div class="label">Hrs</div></div>
-                <div class="timer-box"><div id="minutes" class="time">00</div><div class="colon">:</div><div class="label">Min</div></div>
-                <div class="timer-box"><div id="seconds" class="time">00</div><div class="colon">:</div><div class="label">Sec</div></div>
+                <div class="timer-box">
+                    <div class="timer-ring" id="ring-days" style="--pct:0%"><div class="timer-inner" id="days">00</div></div>
+                    <div class="label">Days</div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer-ring" id="ring-hours" style="--pct:0%"><div class="timer-inner" id="hours">00</div></div>
+                    <div class="label">Hours</div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer-ring" id="ring-minutes" style="--pct:0%"><div class="timer-inner" id="minutes">00</div></div>
+                    <div class="label">Minutes</div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer-ring" id="ring-seconds" style="--pct:0%"><div class="timer-inner" id="seconds">00</div></div>
+                    <div class="label">Seconds</div>
+                </div>
             </div>
             <div class="info-box-container">
                 <div class="info-box"><i class="bi bi-calendar-event"></i><div class="info-title">Date</div><div class="info-data">Sep 27, 2025</div></div>
@@ -1325,14 +1371,14 @@
                 <!-- Event 6 -->
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
                     <div class="glass-card">
-                        <img class="event-logo" src="thlogo.png" alt="Tech Hint logo" loading="eager" decoding="async" fetchpriority="high" width="72" height="72">
+                        <img class="event-logo" src="thlo.png" alt="Tech Hint logo" loading="eager" decoding="async" fetchpriority="high" width="72" height="72">
                         <h5 class="card-title">Tech Hint</h5>
                         <p class="card-text text-white-50">A fun and competitive word-based event that sharpens technical vocabulary, teamwork, and quick thinking.</p>
                         <button class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
                             data-event-title="Tech Hint"
                             data-details="A competitive word-based challenge to sharpen technical vocabulary and teamwork."
-                            data-img1="thp1.jpg"
-                            data-img2="thp2.jpg">
+                            data-img1="thpf.jpg"
+                            data-img2="thpf2.jpg">
                             Details
                         </button>
                     </div>
@@ -1384,6 +1430,32 @@
                                 title="SRM Valliammai Engineering College location"
                                 referrerpolicy="no-referrer-when-downgrade"
                                 aria-label="Map showing SRM Valliammai Engineering College"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Reach -->
+            <div class="row mt-4 justify-content-center" data-aos="fade-up" data-aos-delay="800">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="glass-card p-3 p-md-4 text-start">
+                        <h5 class="card-title mb-3 text-center">How to Reach SRM Valliammai Engineering College</h5>
+                        <div class="d-flex flex-column gap-3">
+                            <div>
+                                <h6 class="mb-2"><i class="bi bi-train-front me-2"></i>By Train</h6>
+                                <p class="mb-0 text-white-50" style="font-size: clamp(0.9rem, 3.4vw, 1rem); line-height: 1.7;">
+                                    Take any Chennai Beach – Tambaram – Chengalpattu suburban train and get down at
+                                    <strong>Potheri Railway Station</strong>. The college is just a 10-minute walk from the station.
+                                </p>
+                            </div>
+                            <div>
+                                <h6 class="mb-2"><i class="bi bi-bus-front me-2"></i>By Bus</h6>
+                                <p class="mb-0 text-white-50" style="font-size: clamp(0.9rem, 3.4vw, 1rem); line-height: 1.7;">
+                                    From different parts of Chennai, you can take MTC buses going towards Chengalpattu on GST Road.
+                                    Get down at <strong>VPT / Valliammai College</strong> stop. Some bus numbers are
+                                    <strong>500, 500A, 500D, 500E, 500W, 118, 118ET</strong>. The campus is a short walk from the stop.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1606,7 +1678,8 @@
                 <div class="col-md-4 col-12">
                     <div class="glass-card p-4 text-center">
                         <h5 class="card-title"><i class="bi bi-envelope me-2"></i>Email</h5>
-                        <p class="card-text"><a href="mailto:tarasecesymp@gmail.com" class="link-light text-decoration-underline">tarasecesymp@gmail.com</a></p>
+                        <p class="card-text mb-2"><a href="mailto:tarasecesymp@gmail.com" class="link-light text-decoration-underline">tarasecesymp@gmail.com</a></p>
+                        <p class="card-text small mb-0"><a href="https://mail.google.com/mail/?view=cm&to=tarasecesymp@gmail.com" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-underline">Open in Gmail</a></p>
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
@@ -1657,11 +1730,26 @@
                     const hoursEl = document.getElementById("hours");
                     const minutesEl = document.getElementById("minutes");
                     const secondsEl = document.getElementById("seconds");
+                    const ringDays = document.getElementById('ring-days');
+                    const ringHours = document.getElementById('ring-hours');
+                    const ringMinutes = document.getElementById('ring-minutes');
+                    const ringSeconds = document.getElementById('ring-seconds');
                     
                     if (daysEl) daysEl.innerText = days.toString().padStart(2, '0');
                     if (hoursEl) hoursEl.innerText = hours.toString().padStart(2, '0');
                     if (minutesEl) minutesEl.innerText = minutes.toString().padStart(2, '0');
                     if (secondsEl) secondsEl.innerText = seconds.toString().padStart(2, '0');
+
+                    // Update ring progress
+                    // days ring uses modulo 365 approximation
+                    const dayPct = ((days % 365) / 365) * 100;
+                    const hourPct = (hours / 24) * 100;
+                    const minutePct = (minutes / 60) * 100;
+                    const secondPct = (seconds / 60) * 100;
+                    if (ringDays) ringDays.style.setProperty('--pct', dayPct + '%');
+                    if (ringHours) ringHours.style.setProperty('--pct', hourPct + '%');
+                    if (ringMinutes) ringMinutes.style.setProperty('--pct', minutePct + '%');
+                    if (ringSeconds) ringSeconds.style.setProperty('--pct', secondPct + '%');
                 } else {
                     clearInterval(timerFunction);
                     const countdownEl = document.getElementById("countdown-timer");
